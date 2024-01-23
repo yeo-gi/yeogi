@@ -6,9 +6,9 @@ import com.yeogi.yeogi.post.entity.Post;
 import com.yeogi.yeogi.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +45,21 @@ public class PostServiceImpl implements PostService {
             Post savedPost = new Post(title, content, userId);
             postRepository.save(savedPost);
             return new PostRegisterDto(savedPost);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public Long updatePost(Long postId, PostRegisterDto postDto) {
+        try {
+            String title = postDto.getTitle();
+            String content = postDto.getContent();
+
+            Post needUpdatePost = postRepository.findByPostId(postId);
+            needUpdatePost.update(title, content);
+            return postId;
         } catch (Exception e) {
             return null;
         }

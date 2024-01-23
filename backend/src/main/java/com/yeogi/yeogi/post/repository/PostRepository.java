@@ -18,5 +18,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "FROM Post p JOIN p.user u")
     List<PostResponseDto> findAllPostResponseDto();
     Post findByPostId(Long postId);
-
 }
