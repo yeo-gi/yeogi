@@ -33,9 +33,23 @@ public class PostController {
             @ApiResponse(responseCode = "200", description = "성공시 글 목록, 실패시 Fail 반환")
     })
     public ResponseEntity<?> getPosts() {
-        List<PostResponseDto> posts = postService.getPost();
+        List<PostResponseDto> posts = postService.getPosts();
         if (posts != null) {
             return new ResponseEntity<>(posts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fail", HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/{postId}")
+    @Operation(summary = "게시판 단일 글 조회 메서드", description = "게시판 글 하나를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공시 글 내용, 실패시 Fail 반환")
+    })
+    public ResponseEntity<?> getPost(@PathVariable Long postId) {
+        PostResponseDto post = postService.getPost(postId);
+        if (post != null) {
+            return new ResponseEntity<>(post, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Fail", HttpStatus.OK);
         }
@@ -47,7 +61,7 @@ public class PostController {
             @ApiResponse(responseCode = "200", description = "성공시 완료 텍스트, 실패시 Fail 반환")
     })
     public ResponseEntity<?> createPost(@RequestBody PostRegisterDto post) {
-        Post createPost = postService.createPost(post);
+        PostRegisterDto createPost = postService.createPost(post);
         if (createPost != null) {
             return new ResponseEntity<>("글 작성이 완료되었습니다.", HttpStatus.OK);
         } else {

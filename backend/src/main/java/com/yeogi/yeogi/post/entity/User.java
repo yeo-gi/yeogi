@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 //TODO 1.User 랑 Comment entity 를 post 패키지에 넣어논 이유가 있으신쥐..?
+//User는 임시.. 입니다요 코멘트는.. 그러게요?
 
 
 @Entity
@@ -39,4 +40,5 @@ public class User {
     public User(Long userId) {
         this.userId = userId;
     }
+
 }
