@@ -17,6 +17,7 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
 
+    //TODO 3. 네이밍 -> List 반환은 복수형 붙히는게 좋을 것 같아염 ~ >_<
     @Override
     public List<PostResponseDto> getPost() {
         try {
@@ -26,6 +27,7 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    //TODO 2. 이건 entity 그대로 Return 하는 이유가 있으신쥐..?
     @Override
     public Post createPost(PostRegisterDto postDto) {
         try {

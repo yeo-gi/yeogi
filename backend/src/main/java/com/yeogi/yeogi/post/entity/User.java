@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+//TODO 1.User 랑 Comment entity 를 post 패키지에 넣어논 이유가 있으신쥐..?
+
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
