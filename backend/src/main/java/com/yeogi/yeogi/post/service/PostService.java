@@ -10,5 +10,7 @@ public interface PostService {
     PostResponseDto getPost(Long postId);
     PostRegisterDto createPost(PostRegisterDto post);
     Long updatePost(Long postId, PostRegisterDto post);
+    boolean deletePost(Long postId);
+    // boolean isAuthorized(Long postId, Long currentUserId);
 
 }

@@ -64,4 +64,15 @@ public class PostServiceImpl implements PostService {
             return null;
         }
     }
+
+    @Override
+    @Transactional
+    public boolean deletePost(Long postId) {
+        try {
+            postRepository.deleteById(postId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

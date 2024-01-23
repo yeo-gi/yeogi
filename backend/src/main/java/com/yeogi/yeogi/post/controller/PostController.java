@@ -69,15 +69,30 @@ public class PostController {
         }
     }
 
+    // 수정삭제 권한추가해야함
     @PutMapping("/{postId}")
     @Operation(summary = "게시판 글 수정 메서드", description = "게시판 글을 수정합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공시 완료 텍스트, 실패시 Fail 반환")
+            @ApiResponse(responseCode = "200", description = "성공시 수정 내용, 실패시 Fail 반환")
     })
     public ResponseEntity<?> updatePost(@PathVariable Long postId, @RequestBody PostRegisterDto post) {
         Long updatedPost = postService.updatePost(postId, post);
         if (updatedPost != null) {
             return new ResponseEntity<>(post, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fail", HttpStatus.OK);
+        }
+    }
+
+    @DeleteMapping("/{postId}")
+    @Operation(summary = "게시판 글 삭제 메서드", description = "게시판 글을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공시 완료 텍스트, 실패시 Fail 반환")
+    })
+    public ResponseEntity<?> deletePost(@PathVariable Long postId) {
+        boolean isDeleted = postService.deletePost(postId);
+        if (isDeleted) {
+            return new ResponseEntity<>("글 삭제가 완료되었습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Fail", HttpStatus.OK);
         }
