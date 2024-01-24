@@ -2,8 +2,10 @@ package com.yeogi.yeogi.trip.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,20 +16,23 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Table(name = "trip")
+@Builder
+@DynamicInsert
 public class Trip {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trip_id")
     private Long tripId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
-    @OneToMany(mappedBy = "tripId", cascade = CascadeType.ALL)
-    private List<TripLocation> tripLocations = new ArrayList<>();
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+    private List<TripLocation> tripLocations;
 
-    @OneToMany(mappedBy = "tripId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private List<TripParticipants> tripParticipants;
 
     @Column(name = "trip_name", nullable = false)
@@ -42,20 +47,28 @@ public class Trip {
     @Column(name = "trip_description")
     private String tripDescription;
 
-    @Column(name = "total_expenditure", nullable = false)
-    private double totalExpenditure;
-
     public Trip(
-            Long userId, List<TripParticipants> tripParticipants, List<TripLocation> tripLocations,
-            String tripName, LocalDateTime startDate, LocalDateTime endDate, String tripDescription, double totalExpenditure
+            Long userId, List<TripLocation> tripLocations, List<TripParticipants> tripParticipants,
+            String tripName, LocalDateTime startDate, LocalDateTime endDate, String tripDescription
     ) {
-        this.userId = new User(userId);
+        this.user = new User(userId);
         this.tripParticipants = tripParticipants;
         this.tripLocations = tripLocations;
         this.tripName = tripName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.tripDescription = tripDescription;
-        this.totalExpenditure = totalExpenditure;
+    }
+
+    public void update(
+            List<TripLocation> tripLocations, List<TripParticipants> tripParticipants, String tripName,
+            LocalDateTime startDate, LocalDateTime endDate, String tripDescription
+    ) {
+        this.tripParticipants = tripParticipants;
+        this.tripLocations = tripLocations;
+        this.tripName = tripName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.tripDescription = tripDescription;
     }
 }
