@@ -49,6 +49,10 @@ public class Post {
         this.user = new User(userId);
     }
 
+    public Post(Long postId) {
+        this.postId = postId;
+    }
+
     public void update(String title, String content) {
         this.title = title;
         this.content = content;

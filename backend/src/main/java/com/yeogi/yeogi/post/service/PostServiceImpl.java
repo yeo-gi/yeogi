@@ -1,5 +1,7 @@
 package com.yeogi.yeogi.post.service;
 
+import com.yeogi.yeogi.comment.dto.CommentResponseDto;
+import com.yeogi.yeogi.comment.service.CommentService;
 import com.yeogi.yeogi.post.dto.PostRegisterDto;
 import com.yeogi.yeogi.post.dto.PostResponseDto;
 import com.yeogi.yeogi.post.entity.Post;
@@ -27,6 +29,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponseDto getPost(Long postId) {
+
         try {
             Post optionalPost = postRepository.findByPostId(postId);
             return new PostResponseDto(optionalPost);
