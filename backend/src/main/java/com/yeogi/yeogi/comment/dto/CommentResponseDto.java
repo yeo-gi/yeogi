@@ -13,12 +13,16 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CommentResponseDto {
+    private Long postId;
+    private Long commentId;
     private String nickname;
     private String content;
     private LocalDateTime commentTime;
     private List<CommentResponseDto> reComments;
 
     public CommentResponseDto(Comment comment, List<CommentResponseDto> reComments) {
+        this.postId = comment.getPost().getPostId();
+        this.commentId = comment.getCommentId();
         this.nickname = comment.getUser().getNickname();
         this.content = comment.getContent();
         this.commentTime = comment.getCommentTime();

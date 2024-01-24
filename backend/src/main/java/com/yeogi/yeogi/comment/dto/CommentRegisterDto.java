@@ -9,6 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class CommentRegisterDto {
+
     private String content;
     private Long userId;
 

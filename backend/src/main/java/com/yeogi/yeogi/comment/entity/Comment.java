@@ -39,11 +39,18 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "parent_id", nullable = false)
-    private Comment comment;
+    private Comment parent;
 
     public Comment(String content, Long userId, Long postId) {
         this.content = content;
         this.user = new User(userId);
         this.post = new Post(postId);
+    }
+
+    public Comment(String content, Long userId, Long postId, Comment parent) {
+        this.content = content;
+        this.user = new User(userId);
+        this.post = new Post(postId);
+        this.parent = parent;
     }
 }
