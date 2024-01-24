@@ -17,7 +17,6 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final CommentService commentService;
 
     @Override
     public List<PostResponseDto> getPosts() {
