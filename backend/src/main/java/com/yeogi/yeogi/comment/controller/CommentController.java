@@ -66,4 +66,32 @@ public class CommentController {
             return new ResponseEntity<>("Fail", HttpStatus.OK);
         }
     }
+
+    @PutMapping("/comment")
+    @Operation(summary = "댓글 수정 메서드", description = "게시글의 댓글을 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공시 성공 텍스트, 실패시 Fail 반환")
+    })
+    public ResponseEntity<?> updateComment(@PathVariable Long commentId, @RequestBody CommentRegisterDto comment) {
+        Long updatedComment = commentService.updateComment(commentId, comment);
+        if (updatedComment != null) {
+            return new ResponseEntity<>("댓글 수정이 완료되었습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fail", HttpStatus.OK);
+        }
+    }
+
+    @PutMapping("/comment/{commentId}/{parentCommentId}")
+    @Operation(summary = "대댓글 수정 메서드", description = "대댓글을 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공시 성공 텍스트, 실패시 Fail 반환")
+    })
+    public ResponseEntity<?> updateRecomment(@PathVariable Long commentId, @PathVariable Long parentCommentId, @RequestBody CommentRegisterDto comment) {
+        Long updatedComment = commentService.updateRecomment(commentId, parentCommentId, comment);
+        if (updatedComment != null) {
+            return new ResponseEntity<>("댓글 수정이 완료되었습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fail", HttpStatus.OK);
+        }
+    }
 }

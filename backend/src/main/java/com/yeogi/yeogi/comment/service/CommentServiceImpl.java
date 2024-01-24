@@ -6,9 +6,9 @@ import com.yeogi.yeogi.comment.entity.Comment;
 import com.yeogi.yeogi.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,5 +73,32 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return new CommentResponseDto(comment, reCommentsDto);
+    }
+
+    @Override
+    @Transactional
+    public Long updateComment(Long commentId, CommentRegisterDto comment) {
+        try {
+            String content = comment.getContent();
+            Comment needUpdateComment = commentRepository.findByCommentId(commentId);
+            needUpdateComment.update(content);
+            return commentId;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public Long updateRecomment(Long commentId, Long parentCommentId, CommentRegisterDto comment) {
+        try {
+            String content = comment.getContent();
+            Comment parentComment = commentRepository.findByCommentId(parentCommentId);
+            Comment needUpdateComment = commentRepository.findByCommentIdAndParent(commentId, parentComment);
+            needUpdateComment.update(content);
+            return commentId;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -37,7 +37,7 @@ public class Comment {
     @CreationTimestamp
     private LocalDateTime commentTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_id", nullable = false)
     private Comment parent;
 
@@ -52,5 +52,9 @@ public class Comment {
         this.user = new User(userId);
         this.post = new Post(postId);
         this.parent = parent;
+    }
+
+    public void update(String content) {
+        this.content = content;
     }
 }
