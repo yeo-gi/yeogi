@@ -37,7 +37,10 @@ public class Comment {
     @CreationTimestamp
     private LocalDateTime commentTime;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
+    @ManyToOne
     @JoinColumn(name = "parent_id", nullable = false)
     private Comment parent;
 
@@ -56,5 +59,10 @@ public class Comment {
 
     public void update(String content) {
         this.content = content;
+    }
+
+    public void delUpdate(String content) {
+        this.content = content;
+        this.isDeleted = true;
     }
 }

@@ -12,4 +12,6 @@ public interface CommentService {
     List<CommentResponseDto> getComments(Long postId);
     Long updateComment(Long commentId, CommentRegisterDto comment);
     Long updateRecomment(Long commentId, Long parentCommentId, CommentRegisterDto comment);
+    boolean deleteComment(Long commentId);
+    boolean deleteRecomment(Long recommentId, Long parentCommentId);
 }

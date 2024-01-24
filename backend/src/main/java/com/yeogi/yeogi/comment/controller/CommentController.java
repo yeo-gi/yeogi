@@ -67,7 +67,7 @@ public class CommentController {
         }
     }
 
-    @PutMapping("/comment")
+    @PutMapping("/comment/{commentId}")
     @Operation(summary = "댓글 수정 메서드", description = "게시글의 댓글을 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공시 성공 텍스트, 실패시 Fail 반환")
@@ -90,6 +90,34 @@ public class CommentController {
         Long updatedComment = commentService.updateRecomment(commentId, parentCommentId, comment);
         if (updatedComment != null) {
             return new ResponseEntity<>("댓글 수정이 완료되었습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fail", HttpStatus.OK);
+        }
+    }
+
+    @DeleteMapping("/comment/{commentId}")
+    @Operation(summary = "댓글 삭제 메서드", description = "게시글의 댓글을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공시 성공 텍스트, 실패시 Fail 반환")
+    })
+    public ResponseEntity<?> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+        boolean deleteComment = commentService.deleteComment(commentId);
+        if (deleteComment) {
+            return new ResponseEntity<>("댓글 삭제가 완료되었습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fail", HttpStatus.OK);
+        }
+    }
+
+    @DeleteMapping("/comment/{commentId}/{parentCommentId}")
+    @Operation(summary = "대댓글 삭제 메서드", description = "댓글의 대댓글을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공시 성공 텍스트, 실패시 Fail 반환")
+    })
+    public ResponseEntity<?> deleteRecomment(@PathVariable Long postId, @PathVariable Long parentCommentId, @PathVariable Long commentId) {
+        boolean deleteRecomment = commentService.deleteRecomment(commentId, parentCommentId);
+        if (deleteRecomment) {
+            return new ResponseEntity<>("대댓글 삭제가 완료되었습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Fail", HttpStatus.OK);
         }

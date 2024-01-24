@@ -2,6 +2,7 @@ package com.yeogi.yeogi.comment.service;
 
 import com.yeogi.yeogi.comment.dto.CommentRegisterDto;
 import com.yeogi.yeogi.comment.dto.CommentResponseDto;
+import com.yeogi.yeogi.comment.dto.RecommentResponseDto;
 import com.yeogi.yeogi.comment.entity.Comment;
 import com.yeogi.yeogi.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,10 @@ public class CommentServiceImpl implements CommentService {
             List<Comment> comments = commentRepository.findAllByPost_PostId(postId);
             return comments.stream()
                     .filter(comment -> comment.getParent() == null)
-                    .map(this::getRecomments)
+                    .map(comment -> {
+                        List<RecommentResponseDto> recomments = getRecomments(comment);
+                        return new CommentResponseDto(comment, recomments);
+                    })
                     .collect(Collectors.toList());
         } catch (Exception e) {
             return null;
@@ -63,17 +67,18 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
-    private CommentResponseDto getRecomments(Comment comment) {
+    private List<RecommentResponseDto> getRecomments(Comment comment) {
         List<Comment> reComments = commentRepository.findAllByParent_CommentId(comment.getCommentId());
-        List<CommentResponseDto> reCommentsDto = new ArrayList<>();
+        List<RecommentResponseDto> reCommentsDto = new ArrayList<>();
 
         for (Comment reComment : reComments) {
-            CommentResponseDto reCommentDto = new CommentResponseDto(reComment, Collections.emptyList());
+            RecommentResponseDto reCommentDto = new RecommentResponseDto(reComment);
             reCommentsDto.add(reCommentDto);
         }
 
-        return new CommentResponseDto(comment, reCommentsDto);
+        return reCommentsDto;
     }
+
 
     @Override
     @Transactional
@@ -99,6 +104,44 @@ public class CommentServiceImpl implements CommentService {
             return commentId;
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteComment(Long commentId) {
+        try {
+            Comment comment = commentRepository.findByCommentId(commentId);
+            List<Comment> childComments = commentRepository.findAllByParent(comment);
+
+            if (childComments.isEmpty()) {
+                commentRepository.deleteByCommentId(commentId);
+            } else {
+                comment.delUpdate("");
+            }
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteRecomment(Long recommentId, Long parentCommentId) {
+        try {
+            Comment parentComment = commentRepository.findByCommentId(parentCommentId);
+            Comment recomment = commentRepository.findByCommentIdAndParent(recommentId, parentComment);
+            Long childCount = commentRepository.countByParent(recomment.getParent());
+
+            commentRepository.deleteByCommentId(recommentId);
+
+            if (childCount == 1 && parentComment.isDeleted()) {
+                commentRepository.deleteByCommentId(parentCommentId);
+            }
+
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 }
