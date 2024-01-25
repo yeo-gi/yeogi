@@ -11,12 +11,14 @@ import lombok.Data;
 @Builder
 public class ParticipantsRegisterDto {
 
-    private Long userId;
-    private Long tripId;
+//    private Long userId;
+    private UserResponseDto user;
+//    private Long tripId;
     private InvitationStatus status;
 
     public TripParticipants toTripParticipants() {
         return TripParticipants.builder()
-                .status(this.status).build();
+                .status(this.status)
+                .build();
     }
 }

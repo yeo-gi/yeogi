@@ -46,11 +46,8 @@ public class Trip {
     private String tripDescription;
 
     public void update(
-            List<TripLocation> tripLocations, List<TripParticipants> tripParticipants, String tripName,
-            LocalDateTime startDate, LocalDateTime endDate, String tripDescription
+            String tripName, LocalDateTime startDate, LocalDateTime endDate, String tripDescription
     ) {
-        this.tripParticipants = tripParticipants;
-        this.tripLocations = tripLocations;
         this.tripName = tripName;
         this.startDate = startDate;
         this.endDate = endDate;

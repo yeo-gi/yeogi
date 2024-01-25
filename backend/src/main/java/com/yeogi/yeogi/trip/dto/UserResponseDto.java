@@ -1,6 +1,7 @@
 package com.yeogi.yeogi.trip.dto;
 
 import com.yeogi.yeogi.trip.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,5 +21,13 @@ public class UserResponseDto {
 
     public static UserResponseDto of(User user) {
         return new UserResponseDto(user.getUserId(), user.getNickname(), user.getProfileImg());
+    }
+
+    public User toUser() {
+        return User.builder()
+                .userId(this.userId)
+                .nickname(this.nickname)
+                .profileImg(this.profileImg)
+                .build();
     }
 }

@@ -2,14 +2,18 @@ package com.yeogi.yeogi.trip.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Table(name = "user")
+@Builder
+@DynamicInsert
 public class User {
 
     @Id

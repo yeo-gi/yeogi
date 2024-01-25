@@ -32,4 +32,11 @@ public class TripLocation {
     @Column(name = "location_y", nullable = false)
     private double locationY;
 
+    public void update(
+            String locationName, double locationX, double locationY
+    ) {
+        this.locationName = locationName;
+        this.locationX = locationX;
+        this.locationY = locationY;
+    }
 }

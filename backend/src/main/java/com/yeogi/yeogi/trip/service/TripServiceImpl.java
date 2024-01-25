@@ -13,15 +13,15 @@ import com.yeogi.yeogi.trip.repository.ParticipantsRepository;
 import com.yeogi.yeogi.trip.repository.TripRepository;
 import com.yeogi.yeogi.trip.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TripServiceImpl implements TripService {
 
     private final TripRepository tripRepository;
@@ -33,8 +33,7 @@ public class TripServiceImpl implements TripService {
     public TripResponseDto getTrip(Long tripId) {
         try {
             Trip optionalTrip = tripRepository.findByTripId(tripId);
-            TripResponseDto result = new TripResponseDto(optionalTrip);
-            return result;
+            return new TripResponseDto(optionalTrip);
         } catch (Exception e) {
             return null;
         }
@@ -54,8 +53,8 @@ public class TripServiceImpl implements TripService {
             // 여행 장소 테이블 저장
             if (!tripDto.getTripLocations().isEmpty()) {
                 List<LocationRegisterDto> savedLocations = tripDto.getTripLocations();
-                for (int i = 0; i < savedLocations.size(); i++) {
-                    TripLocation savedLocation = savedLocations.get(i).toTripLocation();
+                for (LocationRegisterDto location : savedLocations) {
+                    TripLocation savedLocation = location.toTripLocation();
                     savedLocation.setTrip(savedTrip);
                     locationRepository.save(savedLocation);
                 }
@@ -64,10 +63,10 @@ public class TripServiceImpl implements TripService {
             // 여행 참가자 테이블 저장
             if (!tripDto.getTripParticipants().isEmpty()) {
                 List<ParticipantsRegisterDto> savedParticipants = tripDto.getTripParticipants();
-                for (int i = 0; i < savedParticipants.size(); i++) {
-                    TripParticipants savedParticipant = savedParticipants.get(i).toTripParticipants();
+                for (ParticipantsRegisterDto participant : savedParticipants) {
+                    TripParticipants savedParticipant = participant.toTripParticipants();
                     savedParticipant.setTrip(savedTrip);
-                    savedParticipant.setUser(savedParticipant.getUser());
+                    savedParticipant.setUser(participant.getUser().toUser());
                     participantsRepository.save(savedParticipant);
                 }
             }
@@ -78,18 +77,57 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    @Transactional
     public Long updateTrip(Long tripId, TripRegisterDto tripDto) {
         try {
-//            List<TripLocation> tripLocations = tripDto.getTripLocations();
-//            List<TripParticipants> tripParticipants = tripDto.getTripParticipants();
-            String tripName = tripDto.getTripName();
-            LocalDateTime startDate = tripDto.getStartDate();
-            LocalDateTime endDate = tripDto.getEndDate();
-            String tripDescription = tripDto.getTripDescription();
-
             Trip needUpdateTrip = tripRepository.findByTripId(tripId);
-//            needUpdateTrip.update(tripLocations, tripParticipants, tripName, startDate, endDate, tripDescription);
+
+            // 여행 테이블 수정
+            needUpdateTrip.update(tripDto.getTripName(), tripDto.getStartDate(), tripDto.getEndDate(), tripDto.getTripDescription());
+            tripRepository.save(needUpdateTrip);
+
+            // 여행 장소 테이블 수정 (삭제 후 등록)
+            // 삭제
+            System.out.println(!needUpdateTrip.getTripLocations().isEmpty() + "비었냐안비었냐!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            if (!needUpdateTrip.getTripLocations().isEmpty()) {
+                List<TripLocation> deleteLocations = needUpdateTrip.getTripLocations();
+                locationRepository.deleteAll(deleteLocations);
+                for (TripLocation location : deleteLocations) {
+                    try {
+                        log.info("위치 삭제");
+                        locationRepository.delete(location);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+            // 등록
+            if (!tripDto.getTripLocations().isEmpty()) {
+                List<LocationRegisterDto> updatedLocations = tripDto.getTripLocations();
+                System.out.println(updatedLocations.size() + "몇개냐!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                for (LocationRegisterDto location : updatedLocations) {
+                    TripLocation updatedLocation = location.toTripLocation();
+                    updatedLocation.setTrip(needUpdateTrip);
+                    locationRepository.save(updatedLocation);
+                }
+            }
+
+            // 여행 참가자 테이블 저장 (대조 후............... 삭제 및 등록)
+            //삭제
+            if (!needUpdateTrip.getTripParticipants().isEmpty()) {
+                List<TripParticipants> deleteParticipants = needUpdateTrip.getTripParticipants();
+                for (TripParticipants deleteParticipant : deleteParticipants) {
+                    participantsRepository.deleteById(deleteParticipant.getParticipantId());
+                }
+            }
+            // 등록
+            if (!tripDto.getTripParticipants().isEmpty()) {
+                List<ParticipantsRegisterDto> updatedParticipants = tripDto.getTripParticipants();
+                for (ParticipantsRegisterDto participant : updatedParticipants) {
+                    TripParticipants updatedParticipant = participant.toTripParticipants();
+                    updatedParticipant.setUser(participant.getUser().toUser());
+                    participantsRepository.save(updatedParticipant);
+                }
+            }
             return tripId;
         } catch (Exception e) {
             return null;
@@ -100,6 +138,8 @@ public class TripServiceImpl implements TripService {
     @Transactional
     public boolean deleteTrip(Long tripId) {
         try {
+            participantsRepository.deleteByTripId(tripId);
+            locationRepository.deleteByTripId(tripId);
             tripRepository.deleteById(tripId);
             return true;
         } catch (Exception e) {

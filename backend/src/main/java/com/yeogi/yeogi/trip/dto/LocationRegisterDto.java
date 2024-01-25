@@ -10,7 +10,7 @@ import lombok.Data;
 @Builder
 public class LocationRegisterDto {
 
-    private Long tripId;
+//    private Long tripId;
     private String locationName;
     private double locationX;
     private double locationY;
