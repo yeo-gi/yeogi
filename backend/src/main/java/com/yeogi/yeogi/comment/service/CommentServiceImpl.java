@@ -5,7 +5,6 @@ import com.yeogi.yeogi.comment.dto.CommentResponseDto;
 import com.yeogi.yeogi.comment.dto.RecommentResponseDto;
 import com.yeogi.yeogi.comment.entity.Comment;
 import com.yeogi.yeogi.comment.repository.CommentRepository;
-import com.yeogi.yeogi.post.dto.PostRegisterDto;
 import com.yeogi.yeogi.post.entity.Post;
 import com.yeogi.yeogi.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +67,6 @@ public class CommentServiceImpl implements CommentService {
         } catch (Exception e) {
             return null;
         }
-
     }
 
     private List<RecommentResponseDto> getRecomments(Comment comment) {
@@ -89,7 +87,10 @@ public class CommentServiceImpl implements CommentService {
     public Long updateComment(Long commentId, CommentRegisterDto comment) {
         try {
             String content = comment.getContent();
-            Comment needUpdateComment = commentRepository.findByCommentId(commentId);
+
+            Comment needUpdateComment = Optional.of(commentRepository.findByCommentId(commentId))
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+
             needUpdateComment.update(content);
             return commentId;
         } catch (Exception e) {
@@ -102,8 +103,12 @@ public class CommentServiceImpl implements CommentService {
     public Long updateRecomment(Long commentId, Long parentCommentId, CommentRegisterDto comment) {
         try {
             String content = comment.getContent();
-            Comment parentComment = commentRepository.findByCommentId(parentCommentId);
-            Comment needUpdateComment = commentRepository.findByCommentIdAndParent(commentId, parentComment);
+
+            Comment parentComment = Optional.of(commentRepository.findByCommentId(parentCommentId))
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+            Comment needUpdateComment = Optional.of(commentRepository.findByCommentIdAndParent(commentId, parentComment))
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 대댓글입니다."));
+
             needUpdateComment.update(content);
             return commentId;
         } catch (Exception e) {
@@ -115,7 +120,8 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public boolean deleteComment(Long commentId) {
         try {
-            Comment comment = commentRepository.findByCommentId(commentId);
+            Comment comment = Optional.of(commentRepository.findByCommentId(commentId))
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
             List<Comment> childComments = commentRepository.findAllByParent(comment);
 
             if (childComments.isEmpty()) {
@@ -134,7 +140,8 @@ public class CommentServiceImpl implements CommentService {
     public boolean deleteRecomment(Long recommentId, Long parentCommentId) {
         try {
             Comment parentComment = commentRepository.findByCommentId(parentCommentId);
-            Comment recomment = commentRepository.findByCommentIdAndParent(recommentId, parentComment);
+            Comment recomment = Optional.of(commentRepository.findByCommentIdAndParent(recommentId, parentComment))
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 대댓글입니다."));
             Long childCount = commentRepository.countByParent(recomment.getParent());
 
             commentRepository.deleteByCommentId(recommentId);
