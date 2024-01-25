@@ -77,8 +77,9 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    @Transactional
     public Long updateTrip(Long tripId, TripRegisterDto tripDto) {
-        try {
+//        try {
             Trip needUpdateTrip = tripRepository.findByTripId(tripId);
 
             // 여행 테이블 수정
@@ -90,14 +91,10 @@ public class TripServiceImpl implements TripService {
             System.out.println(!needUpdateTrip.getTripLocations().isEmpty() + "비었냐안비었냐!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             if (!needUpdateTrip.getTripLocations().isEmpty()) {
                 List<TripLocation> deleteLocations = needUpdateTrip.getTripLocations();
-                locationRepository.deleteAll(deleteLocations);
+                // locationRepository.deleteAll(deleteLocations);
                 for (TripLocation location : deleteLocations) {
-                    try {
-                        log.info("위치 삭제");
-                        locationRepository.delete(location);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
+                    log.info("위치 삭제");
+                    locationRepository.deleteById(location.getLocationId());
                 }
             }
             // 등록
@@ -129,9 +126,9 @@ public class TripServiceImpl implements TripService {
                 }
             }
             return tripId;
-        } catch (Exception e) {
-            return null;
-        }
+//        } catch (Exception e) {
+//            return null;
+//        }
     }
 
     @Override
