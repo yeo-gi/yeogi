@@ -1,10 +1,7 @@
 package com.yeogi.yeogi.trip.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
@@ -15,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Table(name = "trip")
 @Builder
 @DynamicInsert
@@ -46,19 +44,6 @@ public class Trip {
 
     @Column(name = "trip_description")
     private String tripDescription;
-
-    public Trip(
-            Long userId, List<TripLocation> tripLocations, List<TripParticipants> tripParticipants,
-            String tripName, LocalDateTime startDate, LocalDateTime endDate, String tripDescription
-    ) {
-        this.user = new User(userId);
-        this.tripParticipants = tripParticipants;
-        this.tripLocations = tripLocations;
-        this.tripName = tripName;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.tripDescription = tripDescription;
-    }
 
     public void update(
             List<TripLocation> tripLocations, List<TripParticipants> tripParticipants, String tripName,

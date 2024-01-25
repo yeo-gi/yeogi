@@ -32,9 +32,4 @@ public class User {
     @Column(name = "profile_img")
     private String profileImg;
 
-
-    public User(Long userId) {
-        this.userId = userId;
-    }
-
 }

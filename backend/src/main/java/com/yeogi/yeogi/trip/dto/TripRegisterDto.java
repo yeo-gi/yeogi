@@ -16,20 +16,19 @@ import java.util.List;
 public class TripRegisterDto {
 
     private Long userId;
-    private List<TripLocation> tripLocations;
-    private List<TripParticipants> tripParticipants;
+    private List<LocationRegisterDto> tripLocations;
+    private List<ParticipantsRegisterDto> tripParticipants;
     private String tripName;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String tripDescription;
 
-    public TripRegisterDto(Trip trip) {
-        this.userId = trip.getUser().getUserId();
-        this.tripLocations = trip.getTripLocations();
-        this.tripParticipants = trip.getTripParticipants();
-        this.tripName = trip.getTripName();
-        this.startDate = trip.getStartDate();
-        this.endDate = trip.getEndDate();
-        this.tripDescription = trip.getTripDescription();
+    public Trip toTrip() {
+        return Trip.builder()
+                .tripName(this.tripName)
+                .startDate(this.startDate)
+                .endDate(this.endDate)
+                .tripDescription(this.tripDescription)
+                .build();
     }
 }

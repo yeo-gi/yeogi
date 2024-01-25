@@ -29,7 +29,7 @@ public class TripController {
 
     @PostMapping
     public ResponseEntity<?> createTrip(@RequestBody TripRegisterDto trip) {
-        TripRegisterDto createTrip = tripService.createTrip(trip);
+        Long createTrip = tripService.createTrip(trip);
         if (createTrip != null) {
             return new ResponseEntity<>("새로운 여행이 생성되었습니다.", HttpStatus.OK);
         } else {
