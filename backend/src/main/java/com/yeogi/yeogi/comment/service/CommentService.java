@@ -7,8 +7,8 @@ import java.util.List;
 
 
 public interface CommentService {
-    CommentRegisterDto createComment(Long postId, CommentRegisterDto comment);
-    CommentRegisterDto createRecomment(Long postId, Long commentId, CommentRegisterDto comment);
+    boolean createComment(Long postId, CommentRegisterDto comment);
+    boolean createRecomment(Long postId, Long commentId, CommentRegisterDto comment);
     List<CommentResponseDto> getComments(Long postId);
     Long updateComment(Long commentId, CommentRegisterDto comment);
     Long updateRecomment(Long commentId, Long parentCommentId, CommentRegisterDto comment);

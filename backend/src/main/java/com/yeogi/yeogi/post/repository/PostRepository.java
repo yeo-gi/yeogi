@@ -12,8 +12,6 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    Collection<Post> findByTitleContaining(String keyword);
-
     @Query("SELECT new com.yeogi.yeogi.post.dto.PostResponseDto(p.postId, p.title, p.content, p.updatedDate, u.userId, u.nickname) " +
             "FROM Post p JOIN p.user u")
     List<PostResponseDto> findAllPostResponseDto();

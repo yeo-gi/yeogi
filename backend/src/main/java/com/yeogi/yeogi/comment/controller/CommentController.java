@@ -30,8 +30,8 @@ public class CommentController {
             @ApiResponse(responseCode = "200", description = "성공시 완료 텍스트, 실패시 Fail 반환")
     })
     public ResponseEntity<?> createComment(@PathVariable Long postId, @RequestBody CommentRegisterDto comment) {
-        CommentRegisterDto createdComment = commentService.createComment(postId, comment);
-        if (createdComment != null) {
+        boolean createdComment = commentService.createComment(postId, comment);
+        if (createdComment) {
             return new ResponseEntity<>("댓글 작성이 완료되었습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Fail", HttpStatus.OK);
@@ -44,8 +44,8 @@ public class CommentController {
             @ApiResponse(responseCode = "200", description = "성공시 완료 텍스트, 실패시 Fail 반환")
     })
     public ResponseEntity<?> createRecomment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody CommentRegisterDto comment) {
-        CommentRegisterDto createdRecomment = commentService.createRecomment(postId, commentId, comment);
-            if (createdRecomment != null) {
+        boolean createdRecomment = commentService.createRecomment(postId, commentId, comment);
+            if (createdRecomment) {
                 return new ResponseEntity<>("대댓글 작성이 완료되었습니다.", HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Fail", HttpStatus.OK);
