@@ -1,7 +1,5 @@
 package com.yeogi.yeogi.post.service;
 
-import com.yeogi.yeogi.comment.dto.CommentResponseDto;
-import com.yeogi.yeogi.comment.service.CommentService;
 import com.yeogi.yeogi.post.dto.PostRegisterDto;
 import com.yeogi.yeogi.post.dto.PostResponseDto;
 import com.yeogi.yeogi.post.entity.Post;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +28,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponseDto getPost(Long postId) {
-
         try {
             Post optionalPost = postRepository.findByPostId(postId);
             return new PostResponseDto(optionalPost);
@@ -39,13 +37,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Post getPostForDto(Long postId) {
+        try {
+            Optional<Post> postOptional = Optional.of(postRepository.findById(postId)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다.")));
+            return postOptional.orElse(null);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+
+    @Override
     public PostRegisterDto createPost(PostRegisterDto postDto) {
         try {
-            String title = postDto.getTitle();
-            String content = postDto.getContent();
-            Long userId = postDto.getUserId();
-
-            Post savedPost = new Post(title, content, userId);
+            Post savedPost = postDto.toPost();
             postRepository.save(savedPost);
             return new PostRegisterDto(savedPost);
         } catch (Exception e) {

@@ -5,12 +5,16 @@ import com.yeogi.yeogi.comment.dto.CommentResponseDto;
 import com.yeogi.yeogi.comment.dto.RecommentResponseDto;
 import com.yeogi.yeogi.comment.entity.Comment;
 import com.yeogi.yeogi.comment.repository.CommentRepository;
+import com.yeogi.yeogi.post.dto.PostRegisterDto;
+import com.yeogi.yeogi.post.entity.Post;
+import com.yeogi.yeogi.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,14 +22,15 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
+    private final PostService postService;
 
     @Override
     public CommentRegisterDto createComment(Long postId, CommentRegisterDto commentDto) {
         try {
-            String content = commentDto.getContent();
-            Long userId = commentDto.getUserId();
+            Post ownerPost = postService.getPostForDto(postId);
 
-            Comment savedComment = new Comment(content, userId, postId);
+            Comment savedComment = commentDto.toComment(ownerPost);
+
             commentRepository.save(savedComment);
             return new CommentRegisterDto(savedComment);
         } catch (Exception e) {
@@ -36,12 +41,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentRegisterDto createRecomment(Long postId, Long commentId, CommentRegisterDto reCommentDto) {
         try {
-            String content = reCommentDto.getContent();
-            Long userId = reCommentDto.getUserId();
-
             Comment parentComment = commentRepository.findByCommentId(commentId);
 
-            Comment savedRecomment = new Comment(content, userId, postId, parentComment);
+            Post ownerPost = postService.getPostForDto(postId);
+
+            Comment savedRecomment = reCommentDto.toRecomment(ownerPost, parentComment);
             commentRepository.save(savedRecomment);
             return new CommentRegisterDto(savedRecomment);
         } catch (Exception e) {

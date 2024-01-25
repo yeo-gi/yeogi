@@ -4,6 +4,7 @@ import com.yeogi.yeogi.post.entity.Post;
 import com.yeogi.yeogi.post.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "comment")
 @Getter
+@Builder
 public class Comment {
 
     @Id
@@ -44,18 +46,6 @@ public class Comment {
     @JoinColumn(name = "parent_id", nullable = false)
     private Comment parent;
 
-    public Comment(String content, Long userId, Long postId) {
-        this.content = content;
-        this.user = new User(userId);
-        this.post = new Post(postId);
-    }
-
-    public Comment(String content, Long userId, Long postId, Comment parent) {
-        this.content = content;
-        this.user = new User(userId);
-        this.post = new Post(postId);
-        this.parent = parent;
-    }
 
     public void update(String content) {
         this.content = content;
