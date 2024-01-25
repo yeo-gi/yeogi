@@ -25,31 +25,32 @@ public class CommentServiceImpl implements CommentService {
     private final PostService postService;
 
     @Override
-    public CommentRegisterDto createComment(Long postId, CommentRegisterDto commentDto) {
+    public boolean createComment(Long postId, CommentRegisterDto commentDto) {
         try {
             Post ownerPost = postService.getPostForDto(postId);
 
             Comment savedComment = commentDto.toComment(ownerPost);
 
             commentRepository.save(savedComment);
-            return new CommentRegisterDto(savedComment);
+            return true;
         } catch (Exception e) {
-            return null;
+            return false;
         }
     }
 
     @Override
-    public CommentRegisterDto createRecomment(Long postId, Long commentId, CommentRegisterDto reCommentDto) {
+    public boolean createRecomment(Long postId, Long commentId, CommentRegisterDto reCommentDto) {
         try {
-            Comment parentComment = commentRepository.findByCommentId(commentId);
+            Comment parentComment = Optional.of(commentRepository.findByCommentId(commentId))
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 코멘트입니다."));
 
             Post ownerPost = postService.getPostForDto(postId);
 
             Comment savedRecomment = reCommentDto.toRecomment(ownerPost, parentComment);
             commentRepository.save(savedRecomment);
-            return new CommentRegisterDto(savedRecomment);
+            return true;
         } catch (Exception e) {
-            return null;
+            return false;
         }
     }
 

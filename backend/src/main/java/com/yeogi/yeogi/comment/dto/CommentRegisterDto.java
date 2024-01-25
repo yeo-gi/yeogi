@@ -15,10 +15,6 @@ public class CommentRegisterDto {
     private String content;
     private Long userId;
 
-    public CommentRegisterDto(Comment comment) {
-        this.content = comment.getContent();
-        this.userId = comment.getUser().getUserId();
-    }
 
     public Comment toRecomment(Post post, Comment parent) {
         return Comment.builder()

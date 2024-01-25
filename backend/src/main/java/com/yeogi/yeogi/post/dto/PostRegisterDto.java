@@ -17,12 +17,6 @@ public class PostRegisterDto {
     private String content;
     private Long userId;
 
-    public PostRegisterDto(Post post) {
-        this.title = post.getTitle();
-        this.content = post.getContent();
-        this.userId = post.getUser().getUserId();
-    }
-
     public Post toPost() {
         return Post.builder()
                 .title(this.title)

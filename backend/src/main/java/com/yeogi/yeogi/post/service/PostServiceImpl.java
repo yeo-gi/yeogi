@@ -29,8 +29,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponseDto getPost(Long postId) {
         try {
-            Post optionalPost = postRepository.findByPostId(postId);
-            return new PostResponseDto(optionalPost);
+            Optional<Post> optionalPost = postRepository.findById(postId);
+
+            return optionalPost.map(PostResponseDto::new).orElse(null);
         } catch (Exception e) {
             return null;
         }
@@ -39,9 +40,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post getPostForDto(Long postId) {
         try {
-            Optional<Post> postOptional = Optional.of(postRepository.findById(postId)
-                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다.")));
-            return postOptional.orElse(null);
+            Optional<Post> optionalPost = postRepository.findById(postId);
+
+            return optionalPost.orElse(null);
         } catch (Exception e) {
             return null;
         }
@@ -50,13 +51,13 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public PostRegisterDto createPost(PostRegisterDto postDto) {
+    public boolean createPost(PostRegisterDto postDto) {
         try {
             Post savedPost = postDto.toPost();
             postRepository.save(savedPost);
-            return new PostRegisterDto(savedPost);
+            return true;
         } catch (Exception e) {
-            return null;
+            return false;
         }
     }
 
