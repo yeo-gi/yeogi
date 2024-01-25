@@ -84,17 +84,20 @@ public class TripServiceImpl implements TripService {
 
             // 여행 테이블 수정
             needUpdateTrip.update(tripDto.getTripName(), tripDto.getStartDate(), tripDto.getEndDate(), tripDto.getTripDescription());
-            tripRepository.save(needUpdateTrip);
+            Trip save = tripRepository.save(needUpdateTrip);
 
             // 여행 장소 테이블 수정 (삭제 후 등록)
             // 삭제
-            System.out.println(!needUpdateTrip.getTripLocations().isEmpty() + "비었냐안비었냐!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            if (!needUpdateTrip.getTripLocations().isEmpty()) {
-                List<TripLocation> deleteLocations = needUpdateTrip.getTripLocations();
-                // locationRepository.deleteAll(deleteLocations);
+            System.out.println(!save.getTripLocations().isEmpty() + "비었냐안비었냐!!!!!!!");
+            if (!save.getTripLocations().isEmpty()) {
+                List<TripLocation> deleteLocations = save.getTripLocations();
                 for (TripLocation location : deleteLocations) {
-                    log.info("위치 삭제");
-                    locationRepository.deleteById(location.getLocationId());
+                    try {
+                        log.info("위치 삭제");
+                        locationRepository.deleteById(location.getLocationId());
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
             }
             // 등록
