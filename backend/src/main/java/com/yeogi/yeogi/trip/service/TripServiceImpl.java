@@ -82,17 +82,21 @@ public class TripServiceImpl implements TripService {
     @Override
     @Transactional
     public Long updateTrip(Long tripId, TripRegisterDto tripDto) {
-        deleteTripLocations(tripId);
-
         Trip needUpdateTrip = tripRepository.findByTripId(tripId);
 
-        log.info("dasdsadsadv {}", needUpdateTrip.getTripLocations().size());
+        if (!needUpdateTrip.getTripLocations().isEmpty()) {
+            deleteTripLocations(tripId);
+        }
+
+        if (!needUpdateTrip.getTripParticipants().isEmpty()) {
+            deleteTripParticipants(tripId);
+        }
 
         needUpdateTrip.update(tripDto.getTripName(), tripDto.getStartDate(), tripDto.getEndDate(), tripDto.getTripDescription());
 
         addNewTripLocations(tripDto.getTripLocations(), needUpdateTrip);
+        addNewTripParticipants(tripDto.getTripParticipants(), needUpdateTrip);
 
-        updateTripParticipants(tripDto.getTripParticipants(), needUpdateTrip);
         tripRepository.save(needUpdateTrip);
 
         return tripId;
@@ -100,14 +104,10 @@ public class TripServiceImpl implements TripService {
 
     @Transactional
     public void deleteTripLocations(Long tripId) {
-        Trip needUpdateTrip = tripRepository.findByTripId(tripId);
-        List<TripLocation> tripLocations = needUpdateTrip.getTripLocations();
-
         locationRepository.deleteAllByTripTripId(tripId);
 
         entityManager.flush();
         entityManager.clear();
-
     }
 
     private void addNewTripLocations(List<LocationRegisterDto> locations, Trip trip) {
@@ -120,19 +120,21 @@ public class TripServiceImpl implements TripService {
         }
     }
 
-    private void updateTripParticipants(List<ParticipantsRegisterDto> participants, Trip trip) {
-        // 기존 참가자 삭제
-        if (!trip.getTripParticipants().isEmpty()) {
-            for (TripParticipants deleteParticipant : trip.getTripParticipants()) {
-                participantsRepository.deleteById(deleteParticipant.getParticipantId());
-            }
-        }
+    @Transactional
+    public void deleteTripParticipants(Long tripId) {
+        participantsRepository.deleteAllByTripTripId(tripId);
 
-        // 새로운 참가자 등록
+        entityManager.flush();
+        entityManager.clear();
+    }
+
+    private void addNewTripParticipants(List<ParticipantsRegisterDto> participants, Trip trip) {
         if (!participants.isEmpty()) {
+            log.info("참가자 추가");
             for (ParticipantsRegisterDto participant : participants) {
                 TripParticipants updatedParticipant = participant.toTripParticipants();
                 updatedParticipant.setTrip(trip);
+                updatedParticipant.setUser(participant.getUser().toUser());
                 participantsRepository.save(updatedParticipant);
             }
         }
@@ -142,7 +144,7 @@ public class TripServiceImpl implements TripService {
     @Transactional
     public boolean deleteTrip(Long tripId) {
         try {
-            participantsRepository.deleteByTripId(tripId);
+            participantsRepository.deleteByTripTripId(tripId);
             locationRepository.deleteByTripTripId(tripId);
             tripRepository.deleteById(tripId);
             return true;

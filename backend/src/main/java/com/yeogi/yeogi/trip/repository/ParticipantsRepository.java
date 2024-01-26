@@ -8,10 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface ParticipantsRepository extends JpaRepository<TripParticipants, Long> {
 
-    @Modifying
-    @Query(value = "DELETE FROM TripParticipants p WHERE p.participantId = :participantId", nativeQuery = true)
-    void deleteById(@Param("participantId") Long participantId);
-
-    @Query("DELETE FROM TripParticipants p WHERE p.trip.tripId = :tripId")
-    void deleteByTripId(@Param("tripId") Long tripId);
+    void deleteAllByTripTripId(Long tripId);
+    void deleteByTripTripId(Long tripId);
 }

@@ -8,11 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface LocationRepository extends JpaRepository<TripLocation, Long> {
 
-//    @Modifying
-//    @Query(value = "DELETE FROM TripLocation l WHERE l.locationId = :locationId", nativeQuery = true)
-//    void deleteById(@Param("locationId") Long locationId);
-//    void deleteById(Long locationId);
-
     void deleteAllByTripTripId(Long tripId);
     void deleteByTripTripId(Long tripId);
 }
