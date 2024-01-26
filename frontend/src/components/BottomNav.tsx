@@ -1,5 +1,4 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Home, Calculate, Community, Travel} from './index';
@@ -44,37 +43,35 @@ const getTabBarIcon = (routeName: string, focused: boolean) => {
 
 export default function BottomNav() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator initialRouteName={homeName} screenOptions={screenOptions}>
-        <Tab.Screen
-          name={homeName}
-          component={Home}
-          options={({route}) => ({
-            tabBarIcon: ({focused}) => getTabBarIcon(route.name, focused),
-          })}
-        />
-        <Tab.Screen
-          name={travelName}
-          component={Travel}
-          options={({route}) => ({
-            tabBarIcon: ({focused}) => getTabBarIcon(route.name, focused),
-          })}
-        />
-        <Tab.Screen
-          name={calculateName}
-          component={Calculate}
-          options={({route}) => ({
-            tabBarIcon: ({focused}) => getTabBarIcon(route.name, focused),
-          })}
-        />
-        <Tab.Screen
-          name={communityName}
-          component={Community}
-          options={({route}) => ({
-            tabBarIcon: ({focused}) => getTabBarIcon(route.name, focused),
-          })}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Tab.Navigator initialRouteName={homeName} screenOptions={screenOptions}>
+      <Tab.Screen
+        name={homeName}
+        component={Home}
+        options={({route}) => ({
+          tabBarIcon: ({focused}) => getTabBarIcon(route.name, focused),
+        })}
+      />
+      <Tab.Screen
+        name={travelName}
+        component={Travel}
+        options={({route}) => ({
+          tabBarIcon: ({focused}) => getTabBarIcon(route.name, focused),
+        })}
+      />
+      <Tab.Screen
+        name={calculateName}
+        component={Calculate}
+        options={({route}) => ({
+          tabBarIcon: ({focused}) => getTabBarIcon(route.name, focused),
+        })}
+      />
+      <Tab.Screen
+        name={communityName}
+        component={Community}
+        options={({route}) => ({
+          tabBarIcon: ({focused}) => getTabBarIcon(route.name, focused),
+        })}
+      />
+    </Tab.Navigator>
   );
 }
