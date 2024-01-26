@@ -12,6 +12,7 @@ import com.yeogi.yeogi.trip.repository.LocationRepository;
 import com.yeogi.yeogi.trip.repository.ParticipantsRepository;
 import com.yeogi.yeogi.trip.repository.TripRepository;
 import com.yeogi.yeogi.trip.repository.UserRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class TripServiceImpl implements TripService {
     private final UserRepository userRepository;
     private final LocationRepository locationRepository;
     private final ParticipantsRepository participantsRepository;
+
+    private final EntityManager entityManager;
 
     @Override
     public TripResponseDto getTrip(Long tripId) {
@@ -77,60 +80,61 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    @Transactional
     public Long updateTrip(Long tripId, TripRegisterDto tripDto) {
-        try {
-            Trip needUpdateTrip = tripRepository.findByTripId(tripId);
+        deleteTripLocations(tripId);
 
-            // 여행 테이블 수정
-            needUpdateTrip.update(tripDto.getTripName(), tripDto.getStartDate(), tripDto.getEndDate(), tripDto.getTripDescription());
-            tripRepository.save(needUpdateTrip);
+        Trip needUpdateTrip = tripRepository.findByTripId(tripId);
 
-            // 여행 장소 테이블 수정 (삭제 후 등록)
-            // 삭제
-            System.out.println(!needUpdateTrip.getTripLocations().isEmpty() + "비었냐안비었냐!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            if (!needUpdateTrip.getTripLocations().isEmpty()) {
-                List<TripLocation> deleteLocations = needUpdateTrip.getTripLocations();
-                locationRepository.deleteAll(deleteLocations);
-                for (TripLocation location : deleteLocations) {
-                    try {
-                        log.info("위치 삭제");
-                        locationRepository.delete(location);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-            }
-            // 등록
-            if (!tripDto.getTripLocations().isEmpty()) {
-                List<LocationRegisterDto> updatedLocations = tripDto.getTripLocations();
-                System.out.println(updatedLocations.size() + "몇개냐!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                for (LocationRegisterDto location : updatedLocations) {
-                    TripLocation updatedLocation = location.toTripLocation();
-                    updatedLocation.setTrip(needUpdateTrip);
-                    locationRepository.save(updatedLocation);
-                }
-            }
+        log.info("dasdsadsadv {}", needUpdateTrip.getTripLocations().size());
 
-            // 여행 참가자 테이블 저장 (대조 후............... 삭제 및 등록)
-            //삭제
-            if (!needUpdateTrip.getTripParticipants().isEmpty()) {
-                List<TripParticipants> deleteParticipants = needUpdateTrip.getTripParticipants();
-                for (TripParticipants deleteParticipant : deleteParticipants) {
-                    participantsRepository.deleteById(deleteParticipant.getParticipantId());
-                }
+        needUpdateTrip.update(tripDto.getTripName(), tripDto.getStartDate(), tripDto.getEndDate(), tripDto.getTripDescription());
+
+        addNewTripLocations(tripDto.getTripLocations(), needUpdateTrip);
+
+        updateTripParticipants(tripDto.getTripParticipants(), needUpdateTrip);
+        tripRepository.save(needUpdateTrip);
+
+        return tripId;
+    }
+
+    @Transactional
+    public void deleteTripLocations(Long tripId) {
+        Trip needUpdateTrip = tripRepository.findByTripId(tripId);
+        List<TripLocation> tripLocations = needUpdateTrip.getTripLocations();
+
+        locationRepository.deleteAllByTripTripId(tripId);
+
+        entityManager.flush();
+        entityManager.clear();
+
+    }
+
+    private void addNewTripLocations(List<LocationRegisterDto> locations, Trip trip) {
+        if (!locations.isEmpty()) {
+            for (LocationRegisterDto location : locations) {
+                TripLocation updatedLocation = location.toTripLocation();
+                updatedLocation.setTrip(trip);
+                locationRepository.save(updatedLocation);
             }
-            // 등록
-            if (!tripDto.getTripParticipants().isEmpty()) {
-                List<ParticipantsRegisterDto> updatedParticipants = tripDto.getTripParticipants();
-                for (ParticipantsRegisterDto participant : updatedParticipants) {
-                    TripParticipants updatedParticipant = participant.toTripParticipants();
-                    updatedParticipant.setUser(participant.getUser().toUser());
-                    participantsRepository.save(updatedParticipant);
-                }
+        }
+    }
+
+    private void updateTripParticipants(List<ParticipantsRegisterDto> participants, Trip trip) {
+        // 기존 참가자 삭제
+        if (!trip.getTripParticipants().isEmpty()) {
+            for (TripParticipants deleteParticipant : trip.getTripParticipants()) {
+                participantsRepository.deleteById(deleteParticipant.getParticipantId());
             }
-            return tripId;
-        } catch (Exception e) {
-            return null;
+        }
+
+        // 새로운 참가자 등록
+        if (!participants.isEmpty()) {
+            for (ParticipantsRegisterDto participant : participants) {
+                TripParticipants updatedParticipant = participant.toTripParticipants();
+                updatedParticipant.setTrip(trip);
+                participantsRepository.save(updatedParticipant);
+            }
         }
     }
 
@@ -139,7 +143,7 @@ public class TripServiceImpl implements TripService {
     public boolean deleteTrip(Long tripId) {
         try {
             participantsRepository.deleteByTripId(tripId);
-            locationRepository.deleteByTripId(tripId);
+            locationRepository.deleteByTripTripId(tripId);
             tripRepository.deleteById(tripId);
             return true;
         } catch (Exception e) {

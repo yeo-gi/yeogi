@@ -13,6 +13,6 @@ public interface LocationRepository extends JpaRepository<TripLocation, Long> {
 //    void deleteById(@Param("locationId") Long locationId);
 //    void deleteById(Long locationId);
 
-    @Query("DELETE FROM TripLocation l WHERE l.trip.tripId = :tripId")
-    void deleteByTripId(@Param("tripId") Long tripId);
+    void deleteAllByTripTripId(Long tripId);
+    void deleteByTripTripId(Long tripId);
 }
