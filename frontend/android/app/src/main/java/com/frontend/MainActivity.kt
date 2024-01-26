@@ -4,6 +4,8 @@ import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
+// reactnavigation 관련 추가
+import android.os.Bundle;
 
 class MainActivity : ReactActivity() {
 
@@ -19,4 +21,14 @@ class MainActivity : ReactActivity() {
    */
   override fun createReactActivityDelegate(): ReactActivityDelegate =
       DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+
+  // reactnavigation 관련 추가
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(null)
+  }
+  /** gpt 추천
+   * override fun onCreate(savedInstanceState: Bundle?) {
+   *   super.onCreate(savedInstanceState)
+   * }
+   */
 }
