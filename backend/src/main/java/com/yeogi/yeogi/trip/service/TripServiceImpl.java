@@ -1,9 +1,6 @@
 package com.yeogi.yeogi.trip.service;
 
-import com.yeogi.yeogi.trip.dto.LocationRegisterDto;
-import com.yeogi.yeogi.trip.dto.ParticipantsRegisterDto;
-import com.yeogi.yeogi.trip.dto.TripRegisterDto;
-import com.yeogi.yeogi.trip.dto.TripResponseDto;
+import com.yeogi.yeogi.trip.dto.*;
 import com.yeogi.yeogi.trip.entity.Trip;
 import com.yeogi.yeogi.trip.entity.TripLocation;
 import com.yeogi.yeogi.trip.entity.TripParticipants;
@@ -15,10 +12,12 @@ import com.yeogi.yeogi.trip.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,23 +33,21 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public TripResponseDto getTrip(Long tripId) {
-        try {
-            Trip optionalTrip = tripRepository.findByTripId(tripId);
-            return new TripResponseDto(optionalTrip);
-        } catch (Exception e) {
-            return null;
-        }
+        Optional<Trip> trip = tripRepository.findByTripId(tripId);
+        return trip.map(TripResponseDto::new).orElse(null);
     }
 
     @Override
-    public Long createTrip(TripRegisterDto tripDto) {
+    public ResponseDto createTrip(TripRegisterDto tripDto) {
         try {
-            User user = userRepository.findById(tripDto.getUserId())
-                    .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+            Optional<User> user = userRepository.findById(tripDto.getUserId());
+            if (user.isEmpty()) {
+                return new ResponseDto(HttpStatus.CONFLICT, "존재하지 않는 사용자입니다.");
+            }
 
             // 여행 테이블 저장
             Trip savedTrip = tripDto.toTrip();
-            savedTrip.setUser(user);
+            savedTrip.setUser(user.get());
             tripRepository.save(savedTrip);
 
             // 여행 장소 테이블 저장
@@ -73,33 +70,43 @@ public class TripServiceImpl implements TripService {
                     participantsRepository.save(savedParticipant);
                 }
             }
-            return savedTrip.getTripId();
+            return new ResponseDto(HttpStatus.OK, "새로운 여행이 생성되었습니다.");
         } catch (Exception e) {
-            return null;
+            return new ResponseDto(HttpStatus.BAD_REQUEST, "여행을 생성할 수 없습니다.");
         }
     }
 
     @Override
     @Transactional
-    public Long updateTrip(Long tripId, TripRegisterDto tripDto) {
-        Trip needUpdateTrip = tripRepository.findByTripId(tripId);
-
-        if (!needUpdateTrip.getTripLocations().isEmpty()) {
-            deleteTripLocations(tripId);
+    public ResponseDto updateTrip(Long tripId, TripRegisterDto tripDto) {
+        Optional<User> user = userRepository.findById(tripDto.getUserId());
+        if (user.isEmpty()) {
+            return new ResponseDto(HttpStatus.CONFLICT, "존재하지 않는 사용자입니다.");
         }
 
-        if (!needUpdateTrip.getTripParticipants().isEmpty()) {
-            deleteTripParticipants(tripId);
+        Optional<Trip> needUpdateTrip = tripRepository.findByTripId(tripId);
+
+        if (needUpdateTrip.isPresent()) {
+            if (!needUpdateTrip.get().getTripLocations().isEmpty()) {
+                deleteTripLocations(tripId);
+            }
+
+            if (!needUpdateTrip.get().getTripParticipants().isEmpty()) {
+                deleteTripParticipants(tripId);
+            }
+
+            needUpdateTrip.get().update(tripDto.getTripName(), tripDto.getStartDate(), tripDto.getEndDate(), tripDto.getTripDescription());
+
+            addNewTripLocations(tripDto.getTripLocations(), needUpdateTrip.get());
+            addNewTripParticipants(tripDto.getTripParticipants(), needUpdateTrip.get());
+
+            tripRepository.save(needUpdateTrip.get());
+
+            return new ResponseDto(HttpStatus.OK, "Success");
+        } else {
+            return new ResponseDto(HttpStatus.NOT_FOUND, "여행이 존재하지 않습니다.");
         }
 
-        needUpdateTrip.update(tripDto.getTripName(), tripDto.getStartDate(), tripDto.getEndDate(), tripDto.getTripDescription());
-
-        addNewTripLocations(tripDto.getTripLocations(), needUpdateTrip);
-        addNewTripParticipants(tripDto.getTripParticipants(), needUpdateTrip);
-
-        tripRepository.save(needUpdateTrip);
-
-        return tripId;
     }
 
     @Transactional
