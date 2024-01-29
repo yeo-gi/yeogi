@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, Text, View} from 'react-native';
+import {styles} from '../style/common/LongBtnStyles';
 
 type BtnContent = {
   msg: string;
@@ -16,34 +17,10 @@ export default function LongBtn(props: BtnContent) {
       <Pressable
         onPress={() => navigation.navigate(props.route as never)}
         style={styles.button}>
-        <Text style={props.color ? {color: 'white'} : {color: '#2F2F2F'}}>
+        <Text style={props.color ? styles.coloredFont : styles.oulinedFont}>
           {props.msg}
         </Text>
       </Pressable>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  colored: {
-    width: '100%',
-    height: 49,
-    backgroundColor: '#2F2F2F',
-    borderRadius: 10,
-  },
-  outlined: {
-    width: '100%',
-    height: 49,
-    borderColor: '#2F2F2F',
-    borderWidth: 1,
-    borderRadius: 10,
-  },
-  button: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  font: {
-    fontSize: 21,
-  },
-});
