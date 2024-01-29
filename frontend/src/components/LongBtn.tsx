@@ -13,11 +13,19 @@ export default function LongBtn(props: BtnContent) {
   const navigation = useNavigation();
 
   return (
-    <View style={props.color ? styles.colored : styles.outlined}>
+    <View
+      style={[
+        styles.container,
+        props.color ? styles.colored : styles.outlined,
+      ]}>
       <Pressable
         onPress={() => navigation.navigate(props.route as never)}
         style={styles.button}>
-        <Text style={props.color ? styles.coloredFont : styles.oulinedFont}>
+        <Text
+          style={[
+            styles.font,
+            props.color ? {color: 'white'} : {color: '#2F2F2F'},
+          ]}>
           {props.msg}
         </Text>
       </Pressable>
