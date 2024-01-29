@@ -1,10 +1,10 @@
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import React, {useEffect} from 'react';
 import {Stomp} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
 const TextEncodingPolyfill = require('text-encoding');
-Object.assign('global', {
+Object.assign(global, {
   TextEncoder: TextEncodingPolyfill.TextEncoder,
   TextDecoder: TextEncodingPolyfill.TextDecoder,
 });
@@ -21,23 +21,31 @@ export default function ChattingPage() {
     try {
       stompClient.connect({}, function () {
         console.log('연결');
-        stompClient.subscribe('/sub', function (greeting) {
-          console.log('정보', greeting);
+        stompClient.subscribe('/sub/1', function (message) {
+          console.log('웹에서 뭔가...', message);
         });
-        stompClient.send('/pub', {}, '제발보내져봐요...');
       });
     } catch (error) {
       console.error('연결 실패:', error);
     }
+
+    return stompClient;
   }
 
-  useEffect(() => {
-    connect();
-  }, []);
+  const sendMessage = stompClient => {
+    if (stompClient) {
+      stompClient.send('/pub/1', {}, '제발보내져봐요...??');
+    } else {
+      console.error('STOMP connection not established yet.');
+    }
+  };
+
+  const stompClient = connect();
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>채팅</Text>
+      <Button title="메시지 보내기" onPress={() => sendMessage(stompClient)} />
     </View>
   );
 }
