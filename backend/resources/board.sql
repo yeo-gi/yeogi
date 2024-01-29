@@ -26,6 +26,7 @@ CREATE TABLE `comment` (
                            `user_id` bigint NOT NULL,
                            `content` text NOT NULL,
                            `comment_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                           `is_deleted`	boolean	NOT NULL	DEFAULT false,
                            `parent_id` bigint NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
@@ -51,5 +52,9 @@ ALTER TABLE `comment` ADD CONSTRAINT `FK_user_TO_comment_1` FOREIGN KEY (
                        `user_id`
         );
 
+
 INSERT INTO user(`email`, `password`, `nickname`)
 VALUES ('ww@naver.com', '{bcrypt}$2a$10$NgAsWB9qRNjfl4OOWALIz.GTAJEzibygrLNwPSWO/2b/c37mbzfE6', '유저');
+
+INSERT INTO post(`title`, `content`, `user_id`)
+VALUES ('제목이고요', '본문입니다', 1);

@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "post")
-@Builder
 @Getter
 @DynamicInsert
+@Builder
 public class Post {
 
     @Id
@@ -42,12 +42,6 @@ public class Post {
     @Column(name = "updated_date")
     @UpdateTimestamp
     private LocalDateTime updatedDate;
-
-    public Post(String title, String content, Long userId) {
-        this.title = title;
-        this.content = content;
-        this.user = new User(userId);
-    }
 
     public void update(String title, String content) {
         this.title = title;

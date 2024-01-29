@@ -61,8 +61,8 @@ public class PostController {
             @ApiResponse(responseCode = "200", description = "성공시 완료 텍스트, 실패시 Fail 반환")
     })
     public ResponseEntity<?> createPost(@RequestBody PostRegisterDto post) {
-        PostRegisterDto createPost = postService.createPost(post);
-        if (createPost != null) {
+        boolean createPost = postService.createPost(post);
+        if (createPost) {
             return new ResponseEntity<>("글 작성이 완료되었습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Fail", HttpStatus.OK);
