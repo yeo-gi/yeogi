@@ -38,6 +38,7 @@ CREATE TABLE `chat_room` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `chat_user` (
+                             `chat_user_id` 	bigint	NOT NULL  AUTO_INCREMENT PRIMARY KEY,
                              `user_id`	bigint	NOT NULL,
                              `chat_room_id`	bigint	NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
@@ -51,10 +52,6 @@ CREATE TABLE `chat` (
                         `chat_room_id`	bigint	NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
-ALTER TABLE `chat_user` ADD CONSTRAINT `PK_CHAT_USER` PRIMARY KEY (
-                                                                   `user_id`,
-                                                                   `chat_room_id`
-    );
 
 ALTER TABLE `chat_user` ADD CONSTRAINT `FK_user_TO_chat_user_1` FOREIGN KEY (
                                                                              `user_id`
@@ -96,3 +93,9 @@ ALTER TABLE `comment` ADD CONSTRAINT `FK_user_TO_comment_1` FOREIGN KEY (
 
 INSERT INTO user(`email`, `password`, `nickname`)
 VALUES ('ww@naver.com', '{bcrypt}$2a$10$NgAsWB9qRNjfl4OOWALIz.GTAJEzibygrLNwPSWO/2b/c37mbzfE6', '유저');
+
+INSERT INTO user(`email`, `password`, `nickname`)
+VALUES ('ss@naver.com', '{bcrypt}$2a$10$NgAsWB9qRNjfl4OOWALIz.GTAJEzibygrLNwPSWO/2b/c37mbzfE6', '유저2');
+
+INSERT INTO user(`email`, `password`, `nickname`)
+VALUES ('aa@naver.com', '{bcrypt}$2a$10$NgAsWB9qRNjfl4OOWALIz.GTAJEzibygrLNwPSWO/2b/c37mbzfE6', '유저3');

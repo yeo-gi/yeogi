@@ -1,48 +1,39 @@
 package com.yeogi.yeogi.chat.controllter;
 
-import com.yeogi.yeogi.chat.entity.Chat;
+import com.yeogi.yeogi.chat.dto.RegisterRoomDto;
+import com.yeogi.yeogi.chat.service.ChatService;
+import com.yeogi.yeogi.post.dto.PostRegisterDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
-import org.springframework.stereotype.Controller;
-
-import java.util.Map;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Tag(name = "채팅 API", description = "채팅 관련 API입니다.")
+@RestController
 @RequiredArgsConstructor
-@Controller
+@RequestMapping("/chatroom")
 public class ChatController {
 
-    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final ChatService chatService;
 
-    @MessageMapping("/1")
-    @SendTo("/sub/1")
-    public boolean chatMessage(@Payload String message, StompHeaderAccessor headerAccessor) {
-        try {
-            log.info("받은 텍스트 메시지: {}", message);
-            log.info("가지세요", headerAccessor);
-        } catch (Exception e) {
-            log.error("에러", e);
+    @PostMapping
+    @Operation(summary = "채팅방 생성 메서드", description = "채팅방을 생성합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공시 Success, 실패시 Fail 반환")
+    })
+    public ResponseEntity<?> createRoom(@RequestBody RegisterRoomDto room) {
+        Long createdRoom = chatService.createRoom(room);
+        if (createdRoom != null) {
+            return new ResponseEntity<>(createdRoom, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fail", HttpStatus.OK);
         }
-
-        return true;
     }
-
-
-
-//    @MessageMapping("/sub/1")
-//    public void sendMsg(@Payload Map<String,Object> data){
-//        simpMessagingTemplate.convertAndSend("/sub/1",data);
-//    }
 
 }
