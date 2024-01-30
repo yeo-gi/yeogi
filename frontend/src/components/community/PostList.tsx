@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Post} from './PostType';
 import {getPostList} from '../../apis/communityAPI/CommunityAPI';
 import PostCard from './PostCard';
+import NoPosts from './NoPosts';
 
 export default function PostList() {
   const [postList, setPostList] = useState<Post[]>([]);
@@ -18,9 +19,11 @@ export default function PostList() {
 
   return (
     <View>
-      {postList.map(post => (
-        <PostCard key={post.postId} post={post} />
-      ))}
+      {postList.length === 0 ? (
+        <NoPosts />
+      ) : (
+        postList.map(post => <PostCard key={post.postId} post={post} />)
+      )}
     </View>
   );
 }

@@ -4,6 +4,7 @@ import BottomNav from '../bottomnav/BottomNav';
 import PostingPage from '../../pages/community/PostingPage';
 import LoginPage from '../../pages/user/LoginPage';
 import SignupPage from '../../pages/user/SignupPage';
+import ChattingPage from '../../pages/community/ChattingPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,11 @@ export default function StackNavigation() {
       <Stack.Screen
         name="Signup"
         component={SignupPage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Chatting"
+        component={ChattingPage}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
