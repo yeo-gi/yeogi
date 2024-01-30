@@ -1,7 +1,7 @@
-import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Pressable, Text, View} from 'react-native';
 import RoundedBtnStyles from '../../style/common/RoundedBtnStyles';
+import {useNavi} from '../navigation/useNavi';
 
 type BtnContent = {
   msg: string;
@@ -21,7 +21,7 @@ type BtnContent = {
 };
 
 export default function RoundedBtn(props: BtnContent) {
-  const navigation = useNavigation();
+  const navigation = useNavi();
   const styles = RoundedBtnStyles({
     borderRadius: props.borderRadius,
     backgroundColor: props.color,
@@ -46,7 +46,7 @@ export default function RoundedBtn(props: BtnContent) {
       <Pressable
         onPress={
           props.route !== undefined || props.route !== null
-            ? () => navigation.navigate(props.route as never)
+            ? () => navigation.navigate(props.route)
             : props.onPress
         }
         style={styles.button}>

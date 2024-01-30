@@ -5,6 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 type RootStackParam = {
   Home: undefined;
   Chatting: {roomId: number};
+  Login: undefined;
+  Signup: undefined;
 };
 
 export const useNavi = () => {
