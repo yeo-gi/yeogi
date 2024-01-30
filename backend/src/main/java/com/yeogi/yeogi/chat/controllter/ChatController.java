@@ -35,4 +35,5 @@ public class ChatController {
             return new ResponseEntity<>("Fail", HttpStatus.OK);
         }
     }
+
 }

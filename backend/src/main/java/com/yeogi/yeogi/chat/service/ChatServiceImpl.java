@@ -1,5 +1,6 @@
 package com.yeogi.yeogi.chat.service;
 
+import com.yeogi.yeogi.chat.dto.RegisterChatDto;
 import com.yeogi.yeogi.chat.dto.RegisterRoomDto;
 import com.yeogi.yeogi.chat.entity.Chat;
 import com.yeogi.yeogi.chat.entity.Chatroom;
@@ -84,5 +85,19 @@ public class ChatServiceImpl implements ChatService {
     }
 
     // 채팅 저장
+    public void saveMessage(Long roomId, Long userId, String message) {
 
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 사용자가 없습니다."));
+
+        Chatroom chatroom = chatroomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 채팅방이 없습니다."));
+
+        Chat newchat = Chat.builder()
+                .content(message)
+                .user(user)
+                .chatroom(chatroom)
+                .build();
+        chatRepository.save(newchat);
+    }
 }

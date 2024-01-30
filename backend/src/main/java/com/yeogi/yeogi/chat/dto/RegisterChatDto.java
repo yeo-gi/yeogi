@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RegisterRoomDto {
+public class RegisterChatDto {
+    private String content;
     private Long userId;
-    private Long otherUserId;
+    private Long chatRoomId;
 }

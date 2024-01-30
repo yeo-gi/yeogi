@@ -22,10 +22,13 @@ public class ChatMessagingController {
 
     @MessageMapping("/{roomId}")
     @SendTo("/sub/{roomId}")
-    public boolean chatMessage(@Payload String message, @DestinationVariable Long roomId) {
+    public boolean chatMessage(@Payload String message, @DestinationVariable Long roomId, StompHeaderAccessor accessor) {
         try {
             log.info("받은 텍스트 메시지: {}", message);
+            Long userId = (Long) accessor.getSessionAttributes().get("userId");
+
             chatService.saveLastMessage(roomId, message);
+            chatService.saveMessage(roomId, userId, message);
         } catch (Exception e) {
             log.error("에러", e);
         }
