@@ -38,6 +38,7 @@ public class ChatMessagingController {
             HashMap<String, Object> payload = new HashMap<>();
             payload.put("message", savedChat.getContent());
             payload.put("createdDate", savedChat.getCreatedTime());
+            payload.put("userId", savedChat.getUser().getUserId());
 
             simpMessagingTemplate.convertAndSend("/sub/" + roomId, payload);
 

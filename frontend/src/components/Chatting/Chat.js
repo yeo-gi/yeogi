@@ -10,7 +10,7 @@ Object.assign(global, {
   TextDecoder: TextEncodingPolyfill.TextDecoder,
 });
 
-export default function ChatBtn({roomId}) {
+export default function ChatBtn({roomId, chats, setChats}) {
   const stompClientRef = useRef(null);
 
   useEffect(() => {
@@ -24,9 +24,20 @@ export default function ChatBtn({roomId}) {
 
       try {
         stompClient.connect({}, () => {
-          console.log('연결');
           stompClient.subscribe(`/sub/${roomId}`, message => {
             console.log('웹에서 뭔가...', JSON.parse(message.body));
+            const newMessage = JSON.parse(message.body);
+            const addMessage = {
+              userId: newMessage['userId'],
+              content: newMessage['message'],
+              createdDate: newMessage['createdDate'],
+            };
+
+            console.log('추가한거' + addMessage);
+
+            const updatedChats = [...chats, addMessage];
+            console.log('갈아끼우기' + updatedChats);
+            setChats(updatedChats);
           });
         });
       } catch (error) {
@@ -46,10 +57,9 @@ export default function ChatBtn({roomId}) {
         console.log('연결 해제');
       }
     };
-  }, [roomId]);
+  }, [roomId, chats, setChats]);
 
   const [text, setText] = useState('');
-  console.log(text);
 
   const sendMessage = () => {
     if (stompClientRef.current) {

@@ -10,9 +10,7 @@ export default function CommunityHeader() {
   return (
     <View>
       <View style={styles.titleContainer}>
-        <Text onPress={() => navigation.navigate('Chatting', {roomId: 1})}>
-          채팅
-        </Text>
+        <Text onPress={() => navigation.navigate('ChatList')}>채팅</Text>
         <Text style={styles.titleText}>일행찾기 게시판</Text>
         <Entypo
           style={styles.writingIcon}
