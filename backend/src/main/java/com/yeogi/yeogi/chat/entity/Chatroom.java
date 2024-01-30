@@ -1,5 +1,6 @@
 package com.yeogi.yeogi.chat.entity;
 
+import com.yeogi.yeogi.post.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -31,4 +34,11 @@ public class Chatroom {
 
     @Column(name = "last_chat")
     private String lastChat;
+
+    @OneToMany(mappedBy = "chatroom")
+    private List<Chatuser> chatUsers = new ArrayList<>();
+
+    public void updateLastChat(String lastChat) {
+        this.lastChat = lastChat;
+    }
 }
