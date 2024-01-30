@@ -2,7 +2,7 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
 
-type RootStackParam = {
+export type RootStackParam = {
   Home: undefined;
   Chatting: {roomId: number};
   Login: undefined;
