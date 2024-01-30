@@ -2,6 +2,8 @@ import {View, Text, Button} from 'react-native';
 import React, {useEffect} from 'react';
 import {Stomp} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {RootStackParam} from '../../components/navigation/useNavi';
 
 const TextEncodingPolyfill = require('text-encoding');
 Object.assign(global, {
@@ -9,11 +11,10 @@ Object.assign(global, {
   TextDecoder: TextEncodingPolyfill.TextDecoder,
 });
 
-export default function ChattingPage({
-  route,
-}: {
-  route: {params: {roomId: number}};
-}) {
+type DetailScreenRouteProp = RouteProp<RootStackParam, 'Chatting'>;
+
+export default function ChattingPage() {
+  const {params} = useRoute<DetailScreenRouteProp>();
   // function connect() {
   //   let url = 'http://10.0.2.2:8080/chat';
   //   let stompClient = Stomp.client(url);
@@ -45,11 +46,10 @@ export default function ChattingPage({
   // };
 
   // const stompClient = connect();
+
   useEffect(() => {
-    const {roomId} = route.params;
-    console.log('Received roomId:', roomId);
-    // 여기서 roomId를 사용할 수 있습니다.
-  }, [route.params]);
+    console.log('하하...', params.roomId);
+  });
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
