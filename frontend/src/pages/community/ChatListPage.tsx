@@ -1,10 +1,11 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
+import ChatroomList from '../../components/chatting/ChatroomList';
 
 export default function ChatListPage() {
   return (
     <View>
-      <Text>Home</Text>
+      <ChatroomList />
     </View>
   );
 }

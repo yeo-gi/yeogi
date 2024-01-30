@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ResponseChatroomDto {
     private Long otherUserId;
+    private Long roomId;
     private String ChatRoomName;
     private String lastChat;
     private String profileImg;

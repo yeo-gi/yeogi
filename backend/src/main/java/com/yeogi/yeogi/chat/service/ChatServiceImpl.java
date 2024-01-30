@@ -109,7 +109,7 @@ public class ChatServiceImpl implements ChatService {
 
     // 사용자와의 채팅 목록 불러오기
     public List<ResponseChatDto> getChatList(Long roomId) {
-        List<Chat> chatList = chatRepository.findByChatroom_ChatRoomIdOrderByCreatedTimeDesc(roomId);
+        List<Chat> chatList = chatRepository.findByChatroom_ChatRoomIdOrderByCreatedTime(roomId);
 
         if (chatList == null || chatList.isEmpty()) {
             return Collections.emptyList();
@@ -139,6 +139,7 @@ public class ChatServiceImpl implements ChatService {
 
             ResponseChatroomDto dto = ResponseChatroomDto.builder()
                     .otherUserId(otherUser.getUser().getUserId())
+                    .roomId(chatuser.getChatroom().getChatRoomId())
                     .ChatRoomName(otherUser.getUser().getNickname())
                     .lastChat(chatroom.getLastChat())
                     .profileImg(otherUser.getUser().getProfileImg())
