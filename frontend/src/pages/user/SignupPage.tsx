@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles as ConStyles} from '../../style/common/BasicContainerStyles';
 import {userStyles} from '../../style/user/UserStyles';
@@ -7,7 +7,6 @@ import CustomInput from '../../components/common/CustomInput';
 import CustomCheckBox from '../../components/common/CustomCheckBox';
 import {commonStyles, customColor} from '../../style/common/CommonStyle';
 import ActionBtn from '../../components/common/ActionBtn';
-import {ScrollView} from 'react-native-gesture-handler';
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -21,7 +20,7 @@ export default function SignupPage() {
   return (
     <SafeAreaView style={[ConStyles.container, {alignItems: 'center'}]}>
       <Text style={userStyles.header}>회원가입</Text>
-      {/* <ScrollView contentInsetAdjustmentBehavior="automatic"> */}
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={[commonStyles.rowCenterContents, {width: '100%'}]}>
           <View style={{width: 186}}>
             <CustomInput
@@ -90,7 +89,7 @@ export default function SignupPage() {
           marginTop={13}
           onPress={() => console.log('회원가입')}
         />
-      {/* </ScrollView> */}
+      </ScrollView>
     </SafeAreaView>
   );
 }
