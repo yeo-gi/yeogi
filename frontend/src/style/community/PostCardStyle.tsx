@@ -19,16 +19,16 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
   profileTitle: {
-    fontSize: 11,
+    fontSize: 6,
   },
   postContainer: {
     padding: 10,
     justifyContent: 'center',
   },
   postTitle: {
-    fontSize: 14,
+    fontSize: 11,
   },
   postContent: {
-    fontSize: 11,
+    fontSize: 9,
   },
 });

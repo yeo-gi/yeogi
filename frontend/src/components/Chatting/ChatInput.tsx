@@ -1,8 +1,8 @@
-import React, {Dispatch, SetStateAction} from 'react';
+import React from 'react';
 import {TextInput} from 'react-native';
 
 interface Props {
-  setText: Dispatch<SetStateAction<String>>;
+  setText: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function ChatInput({setText}: Props) {
