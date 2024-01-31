@@ -16,7 +16,7 @@ const truncateText = (text: string, maxLength: number): string => {
 };
 
 export default function PostCard({post}: postProps) {
-  const truncatedTitle = truncateText(post.title, 23);
+  const truncatedTitle = truncateText(post.title, 32);
   const truncatedContent = truncateText(post.content, 30);
 
   return (

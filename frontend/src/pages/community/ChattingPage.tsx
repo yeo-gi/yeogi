@@ -21,7 +21,6 @@ export default function ChattingPage() {
   const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    // 스크롤뷰가 렌더링될 때 스크롤을 맨 아래로 내리도록 함
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({animated: false});
     }

@@ -1,13 +1,7 @@
 import {View, Text} from 'react-native';
-import React, {Dispatch, SetStateAction, useEffect} from 'react';
-import {Chat} from './ChatType';
+import React, {useEffect} from 'react';
 import {getChat} from '../../apis/communityAPI/ChattingAPI';
-
-type ChatListProps = {
-  roomId: number;
-  chats: Chat[];
-  setChats: Dispatch<SetStateAction<Chat[]>>;
-};
+import {ChatListProps} from './ChatListType';
 
 export default function ChatList({roomId, chats, setChats}: ChatListProps) {
   useEffect(() => {
