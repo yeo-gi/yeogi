@@ -5,7 +5,7 @@ import {useNavi} from '../navigation/useNavi';
 
 type BtnContent = {
   msg: string;
-  route?: string;
+  route: string;
   isColor: boolean;
   color?: string;
   borderRadius?: number;
@@ -17,10 +17,9 @@ type BtnContent = {
   marginTop?: number;
   marginBottom?: number;
   marginLeft?: number;
-  onPress?: () => void;
 };
 
-export default function RoundedBtn(props: BtnContent) {
+export default function NavigateBtn(props: BtnContent) {
   const navigation = useNavi();
   const styles = RoundedBtnStyles({
     borderRadius: props.borderRadius,
@@ -44,11 +43,7 @@ export default function RoundedBtn(props: BtnContent) {
         props.isColor ? styles.colored : styles.outlined,
       ]}>
       <Pressable
-        onPress={
-          props.route !== undefined || props.route !== null
-            ? () => navigation.navigate(props.route)
-            : props.onPress
-        }
+        onPress={() => navigation.navigate(props.route as never)}
         style={styles.button}>
         <Text style={[styles.font]}>{props.msg}</Text>
       </Pressable>

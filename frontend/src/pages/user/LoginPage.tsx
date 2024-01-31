@@ -7,7 +7,7 @@ import {userStyles} from '../../style/user/UserStyles';
 import CustomCheckBox from '../../components/common/CustomCheckBox';
 import {commonStyles} from '../../style/common/CommonStyle';
 import PressableSmallText from '../../components/common/PressableSmallText';
-import RoundedBtn from '../../components/common/RoundedBtn';
+import ActionBtn from '../../components/common/ActionBtn';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -36,11 +36,12 @@ export default function LoginPage() {
         onValueChangeHandler={setKeep}
         title="로그인 상태 유지"
       />
-      <RoundedBtn
+      <ActionBtn
         msg="로그인"
         isColor={true}
         marginTop={37}
         marginBottom={16}
+        onPress={() => console.log('로그인')}
       />
       <View style={commonStyles.rowCenterContents}>
         <PressableSmallText title="아이디 찾기" route="Signup" />
