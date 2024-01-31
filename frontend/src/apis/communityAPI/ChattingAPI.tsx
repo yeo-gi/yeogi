@@ -23,3 +23,21 @@ export const getChat = async (roomId: number): Promise<Chat[]> => {
     return [];
   }
 };
+
+// 채팅방 생성
+export const createChatroom = async (
+  userId: number,
+  otherUserId: number,
+): Promise<number | null> => {
+  const usersInfo = {
+    userId: userId,
+    otherUserId: otherUserId,
+  };
+  try {
+    const response = await baseAxios.post('/chatroom', usersInfo);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
