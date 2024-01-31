@@ -1,8 +1,9 @@
 import {View, Button} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {Stomp} from '@stomp/stompjs';
+import {CompatClient, Stomp} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import ChatInput from './ChatInput';
+import {ChatListProps} from './ChatListType';
 
 const TextEncodingPolyfill = require('text-encoding');
 Object.assign(global, {
@@ -10,8 +11,8 @@ Object.assign(global, {
   TextDecoder: TextEncodingPolyfill.TextDecoder,
 });
 
-export default function ChatBtn({roomId, chats, setChats}) {
-  const stompClientRef = useRef(null);
+export default function ChatBtn({roomId, chats, setChats}: ChatListProps) {
+  const stompClientRef = useRef<CompatClient | null>(null);
 
   useEffect(() => {
     const connect = () => {
@@ -20,7 +21,7 @@ export default function ChatBtn({roomId, chats, setChats}) {
 
       stompClient.webSocketFactory = function () {
         return new SockJS(url);
-      };
+      } as any;
 
       try {
         stompClient.connect({}, () => {
