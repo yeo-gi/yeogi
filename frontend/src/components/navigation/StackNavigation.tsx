@@ -5,6 +5,7 @@ import PostingPage from '../../pages/community/PostingPage';
 import LoginPage from '../../pages/user/LoginPage';
 import SignupPage from '../../pages/user/SignupPage';
 import ChattingPage from '../../pages/community/ChattingPage';
+import ChatListPage from '../../pages/community/ChatListPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,11 @@ export default function StackNavigation() {
       <Stack.Screen
         name="Chatting"
         component={ChattingPage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ChatList"
+        component={ChatListPage}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

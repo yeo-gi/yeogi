@@ -7,6 +7,7 @@ export type RootStackParam = {
   Chatting: {roomId: number};
   Login: undefined;
   Signup: undefined;
+  ChatList: undefined;
 };
 
 export const useNavi = () => {

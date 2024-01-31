@@ -1,23 +1,25 @@
 package com.yeogi.yeogi.chat.service;
 
-import com.yeogi.yeogi.chat.dto.RegisterChatDto;
 import com.yeogi.yeogi.chat.dto.RegisterRoomDto;
+import com.yeogi.yeogi.chat.dto.ResponseChatDto;
+import com.yeogi.yeogi.chat.dto.ResponseChatroomDto;
 import com.yeogi.yeogi.chat.entity.Chat;
 import com.yeogi.yeogi.chat.entity.Chatroom;
 import com.yeogi.yeogi.chat.entity.Chatuser;
 import com.yeogi.yeogi.chat.repository.ChatRepository;
 import com.yeogi.yeogi.chat.repository.ChatroomRepository;
 import com.yeogi.yeogi.chat.repository.ChatuserRepository;
-import com.yeogi.yeogi.comment.entity.Comment;
 import com.yeogi.yeogi.comment.repository.UserRepository;
 import com.yeogi.yeogi.post.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -77,6 +79,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     // 마지막 메세지 저장
+    @Transactional
     public void saveLastMessage(Long roomId, String content) {
         Chatroom chatroom = chatroomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채팅창입니다."));
@@ -85,7 +88,8 @@ public class ChatServiceImpl implements ChatService {
     }
 
     // 채팅 저장
-    public void saveMessage(Long roomId, Long userId, String message) {
+    @Transactional
+    public Chat saveMessage(Long roomId, Long userId, String message) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 사용자가 없습니다."));
@@ -99,5 +103,56 @@ public class ChatServiceImpl implements ChatService {
                 .chatroom(chatroom)
                 .build();
         chatRepository.save(newchat);
+
+        return newchat;
+    }
+
+    // 사용자와의 채팅 목록 불러오기
+    public List<ResponseChatDto> getChatList(Long roomId) {
+        List<Chat> chatList = chatRepository.findByChatroom_ChatRoomIdOrderByCreatedTime(roomId);
+
+        if (chatList == null || chatList.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<ResponseChatDto> responseChatDtoList = chatList.stream()
+                .map(chat -> ResponseChatDto.builder()
+                        .userId(chat.getUser().getUserId())
+                        .content(chat.getContent())
+                        .createdDate(chat.getCreatedTime())
+                        .build())
+                .toList();
+
+        return responseChatDtoList;
+    }
+
+    // 채팅방 불러오기
+    public List<ResponseChatroomDto> getChatRoomList(Long userId) {
+        List<Chatuser> chatusers = chatuserRepository.findByUser_userId(userId);
+        List<ResponseChatroomDto> chatroomDtos = new ArrayList<>();
+
+        for (Chatuser chatuser : chatusers) {
+            Chatroom chatroom = chatuser.getChatroom();
+
+            Chatuser otherUser = findOtherUserInChatRoom(chatroom.getChatRoomId(), userId)
+                    .orElseThrow(() -> new RuntimeException("Other user not found"));
+
+            ResponseChatroomDto dto = ResponseChatroomDto.builder()
+                    .otherUserId(otherUser.getUser().getUserId())
+                    .roomId(chatuser.getChatroom().getChatRoomId())
+                    .ChatRoomName(otherUser.getUser().getNickname())
+                    .lastChat(chatroom.getLastChat())
+                    .profileImg(otherUser.getUser().getProfileImg())
+                    .createdDate(chatroom.getCreatedDate())
+                    .build();
+
+            chatroomDtos.add(dto);
+        }
+
+        return chatroomDtos;
+    }
+
+    private Optional<Chatuser> findOtherUserInChatRoom(Long chatRoomId, Long userId) {
+        return chatuserRepository.findByChatroom_ChatRoomIdAndUser_UserIdNot(chatRoomId, userId);
     }
 }
