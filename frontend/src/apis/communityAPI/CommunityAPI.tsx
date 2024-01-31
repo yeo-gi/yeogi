@@ -10,3 +10,13 @@ export const getPostList = async (): Promise<Post[]> => {
     return [];
   }
 };
+
+export const getPost = async (postId: number): Promise<Post | null> => {
+  try {
+    const response = await baseAxios.get(`/board/${postId}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};

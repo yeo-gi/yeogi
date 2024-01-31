@@ -3,15 +3,15 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   postCardContainer: {
     flexDirection: 'row',
-    height: 65,
     borderBottomWidth: 0.5,
     borderColor: '#CCCCCC',
+    paddingTop: 18,
+    paddingBottom: 18,
   },
   profileContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingLeft: 20,
     paddingRight: 10,
+    paddingLeft: 10,
   },
   image: {
     width: 25,
@@ -22,13 +22,18 @@ export const styles = StyleSheet.create({
     fontSize: 6,
   },
   postContainer: {
-    padding: 10,
-    justifyContent: 'center',
+    // paddingLeft: 10,
+    paddingRight: 10,
+    flexShrink: 1,
   },
   postTitle: {
     fontSize: 11,
+    paddingBottom: 5,
+    color: 'black',
+    fontFamily: 'Pretendard-Medium',
   },
   postContent: {
     fontSize: 9,
+    lineHeight: 18,
   },
 });

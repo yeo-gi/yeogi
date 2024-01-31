@@ -2,9 +2,8 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    marginTop: 5,
-    marginLeft: 20,
-    marginRight: 20,
+    marginLeft: 25,
+    marginRight: 25,
   },
   titleContainer: {
     height: 50,
@@ -13,11 +12,15 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderColor: '#CCCCCC',
   },
+  backIcon: {
+    position: 'absolute',
+    left: 10,
+  },
   writingIcon: {
     flexDirection: 'row',
     alignItems: 'center',
     position: 'absolute',
-    right: 15,
+    right: 10,
   },
   titleText: {
     fontSize: 16,

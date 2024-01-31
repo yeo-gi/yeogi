@@ -1,4 +1,4 @@
-import {View, Image} from 'react-native';
+import {View, Image, Text} from 'react-native';
 import React from 'react';
 import {Post} from './PostType';
 import {DefaultText} from '../../style/DefaultText';
@@ -17,7 +17,6 @@ const truncateText = (text: string, maxLength: number): string => {
 
 export default function PostCard({post}: postProps) {
   const truncatedTitle = truncateText(post.title, 32);
-  const truncatedContent = truncateText(post.content, 30);
 
   return (
     <View style={styles.postCardContainer}>
@@ -33,8 +32,8 @@ export default function PostCard({post}: postProps) {
         <DefaultText style={styles.profileTitle}>{post.nickname}</DefaultText>
       </View>
       <View style={styles.postContainer}>
-        <DefaultText style={styles.postTitle}>{truncatedTitle}</DefaultText>
-        <DefaultText style={styles.postContent}>{truncatedContent}</DefaultText>
+        <Text style={styles.postTitle}>{truncatedTitle}</Text>
+        <DefaultText style={styles.postContent}>{post.content}</DefaultText>
       </View>
     </View>
   );
