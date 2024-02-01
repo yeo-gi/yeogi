@@ -117,7 +117,8 @@ public class TripServiceImpl implements TripService {
         entityManager.clear();
     }
 
-    private void addNewTripLocations(List<LocationRegisterDto> locations, Trip trip) {
+    @Transactional
+    public void addNewTripLocations(List<LocationRegisterDto> locations, Trip trip) {
         if (!locations.isEmpty()) {
             for (LocationRegisterDto location : locations) {
                 TripLocation updatedLocation = location.toTripLocation();
@@ -135,7 +136,8 @@ public class TripServiceImpl implements TripService {
         entityManager.clear();
     }
 
-    private void addNewTripParticipants(List<ParticipantsRegisterDto> participants, Trip trip) {
+    @Transactional
+    public void addNewTripParticipants(List<ParticipantsRegisterDto> participants, Trip trip) {
         if (!participants.isEmpty()) {
             log.info("참가자 추가");
             for (ParticipantsRegisterDto participant : participants) {
