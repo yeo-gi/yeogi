@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     fontFamily: customFont.medium,
@@ -17,11 +18,15 @@ export const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   nickname: {
-    fontSize: 6,
+    fontSize: 9,
     paddingRight: 3,
+    fontFamily: customFont.regular,
+    color: customColor.gray50,
   },
   updatedDate: {
-    fontSize: 6,
+    fontSize: 9,
+    fontFamily: customFont.regular,
+    color: customColor.gray50,
   },
   contentBox: {
     paddingHorizontal: 15,
