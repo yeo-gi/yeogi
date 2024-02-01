@@ -5,6 +5,7 @@ import {styles} from '../../style/community/CommunityHeaderStyles';
 import CommunityHeader from '../../components/community/CommunityHeader';
 import PostList from '../../components/community/PostList';
 import {useNavi} from '../../components/navigation/useNavi';
+import InvitationPage from '../invitation/InvitationPage';
 
 export default function Community() {
   const navigation = useNavi();
@@ -18,6 +19,7 @@ export default function Community() {
           <View>
             <PostList />
             <Text onPress={() => navigation.navigate('ChatList')}>채팅</Text>
+            <InvitationPage />
           </View>
         </View>
       </ScrollView>
