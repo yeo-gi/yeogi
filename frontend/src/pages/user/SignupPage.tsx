@@ -31,7 +31,6 @@ export default function SignupPage() {
   const [total, setTotal] = useState(false);
   const [required, setRequired] = useState(false);
   const [optional, setOptional] = useState(false);
-  const [clickTotal, setClickTotal] = useState(false);
 
   // 비밀번호 유효성 검사
   useEffect(() => {
@@ -84,34 +83,39 @@ export default function SignupPage() {
 
   // 약관 관련
   useEffect(() => {
-    if (!clickTotal) {
-      if (required && optional) {
-        setTotal(true);
-      } else {
-        setTotal(false);
-      }
+    if (required && optional) {
+      setTotal(true);
     } else {
-      setClickTotal(false);
+      setTotal(false);
     }
-  }, [total, required, optional, clickTotal]);
+  }, [total, required, optional]);
 
   const totalAgreementFunc = () => {
     setTotal(!total);
-    if (total) {
+    if (!total) {
       setRequired(true);
       setOptional(true);
     } else {
       setRequired(false);
       setOptional(false);
     }
-    setClickTotal(true);
   };
 
   const navigation = useNavi();
 
   return (
     <SafeAreaView style={[ConStyles.container]}>
-      <Text style={userStyles.header}>회원가입</Text>
+      <View>
+        <Entypo
+          name="arrow-left-long"
+          color={'black'}
+          style={{marginTop: 15, marginBottom: 7}}
+          onPress={() => {
+            navigation.pop();
+          }}
+        />
+        <Text style={[userStyles.header]}>회원가입</Text>
+      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{marginBottom: 57}}>
           <View style={[commonStyles.rowCenterContents, {width: '100%'}]}>
