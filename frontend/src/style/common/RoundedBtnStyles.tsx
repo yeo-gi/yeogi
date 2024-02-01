@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {DimensionValue, StyleSheet} from 'react-native';
 import {customColor, customFont} from './CommonStyle';
 
 export const styles = StyleSheet.create({
@@ -35,7 +35,7 @@ type Props = {
   isRegular?: boolean;
   isColor?: boolean;
   isRound?: boolean;
-  width?: number;
+  width?: DimensionValue;
   marginTop?: number;
   marginBottom?: number;
   marginLeft?: number;

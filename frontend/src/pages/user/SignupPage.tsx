@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, TextInput} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles as ConStyles} from '../../style/common/BasicContainerStyles';
 import {userStyles} from '../../style/user/UserStyles';
+import {styles as BtnStyles} from '../../style/common/RoundedBtnStyles';
 import CustomInput from '../../components/common/CustomInput';
 import CustomCheckBox from '../../components/common/CustomCheckBox';
-import {commonStyles, customColor} from '../../style/common/CommonStyle';
+import {customColor} from '../../style/common/CommonStyle';
 import ActionBtn from '../../components/common/ActionBtn';
 import Entypo from 'react-native-vector-icons/FontAwesome6';
 import {useNavi} from '../../components/navigation/useNavi';
@@ -117,32 +118,14 @@ export default function SignupPage() {
         <Text style={[userStyles.header]}>회원가입</Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{marginBottom: 57}}>
-          <View style={[commonStyles.rowCenterContents, {width: '100%'}]}>
-            <View style={{width: 186}}>
-              <CustomInput
-                title="이메일"
-                text={email}
-                setText={setEmail}
-                placeholder="이메일"
-                isPw={false}
-                marginBottom={0}
-              />
-            </View>
-            <ActionBtn
-              msg="중복체크"
-              isColor={true}
-              color={customColor.blue}
-              isRegular={true}
-              width={75}
-              marginLeft={7}
-              onPress={() => {
-                console.log(`중복체크 ${email}`);
-              }}
-            />
-          </View>
-          <Text>{emailMsg}</Text>
-        </View>
+        <InputWithBtn
+          title="이메일"
+          text={email}
+          setText={setEmail}
+          placeholder="이메일"
+          validationMsg={emailMsg}
+          isValidate={emailVal}
+        />
         <CustomInput
           title="비밀번호"
           text={pw}
@@ -177,7 +160,7 @@ export default function SignupPage() {
             title="전체 약관 동의"
           />
           <View style={styles.agreement}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <CustomCheckBox
                 isChecked={required}
                 onValueChangeHandler={setRequired}
@@ -192,7 +175,7 @@ export default function SignupPage() {
                 }}
               />
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <CustomCheckBox
                 isChecked={optional}
                 onValueChangeHandler={setOptional}
@@ -221,12 +204,62 @@ export default function SignupPage() {
   );
 }
 
+type Props = {
+  title: string;
+  text: string;
+  setText: React.Dispatch<React.SetStateAction<string>>;
+  placeholder: string;
+  validationMsg?: string;
+  isValidate?: boolean;
+};
+
+function InputWithBtn(props: Props) {
+  const isValidate = props.isValidate ?? false;
+
+  return (
+    <View style={[BtnStyles.container, {marginBottom: 57}]}>
+      <Text style={userStyles.title}>{props.title}</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <TextInput
+          style={[
+            BtnStyles.container,
+            props.text != '' ? BtnStyles.outlined : BtnStyles.emptyContent,
+            {padding: 15, width: '68%'},
+          ]}
+          onChangeText={props.setText}
+          value={props.text}
+          placeholder={props.placeholder}
+          placeholderTextColor={customColor.gray50}
+        />
+        <ActionBtn
+          msg="중복체크"
+          isColor={true}
+          color={customColor.blue}
+          isRegular={true}
+          width={'30%'}
+          onPress={() => {
+            console.log(`중복체크 ${props.text}`);
+          }}
+        />
+      </View>
+      <Text
+        style={[
+          userStyles.pressableSmallText,
+          props.validationMsg ? {marginTop: 5} : {marginTop: 0},
+          isValidate ? {color: customColor.blue} : {color: customColor.red},
+        ]}>
+        {props.validationMsg}
+      </Text>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   email: {},
   agreement: {
     borderWidth: 1,
     borderColor: customColor.gray40,
-    paddingVertical: 19,
+    paddingVertical: 17,
     paddingLeft: 14,
   },
 });

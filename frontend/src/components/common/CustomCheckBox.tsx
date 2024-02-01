@@ -38,14 +38,16 @@ export default function CustomCheckBox(props: CheckContent) {
   }, [props.isChecked, props.isBlue]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {alignItems: 'center'}]}>
       <Pressable
         disabled={props.disabled}
         onPress={props.onValueChangeHandler ? onPressedHandler : props.onPress}
         style={[styles.checkbox, props.isChecked && styles.checked]}>
         <Entypo name="check" color={checkColor} />
       </Pressable>
-      <Text style={[userStyles.title, {marginLeft: 9}]}>{props.title}</Text>
+      <Text style={[userStyles.title, {marginLeft: 9, marginTop: 3}]}>
+        {props.title}
+      </Text>
     </View>
   );
 }
