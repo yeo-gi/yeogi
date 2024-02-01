@@ -23,10 +23,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // font: {
-  //   fontSize: 14,
-  //   fontFamily: customFont.bold,
-  // },
 });
 
 type Props = {
@@ -38,6 +34,7 @@ type Props = {
   fontSize?: number;
   isRegular?: boolean;
   isColor?: boolean;
+  isRound?: boolean;
   width?: number;
   marginTop?: number;
   marginBottom?: number;
@@ -45,11 +42,12 @@ type Props = {
 };
 
 export default function RoundedBtnStyles(props: Props) {
+  const borderRadius = props.isRound ? 100 : props.borderRadius;
   return StyleSheet.create({
     container: {
       width: props.width ?? '100%',
       height: 49,
-      borderRadius: props.borderRadius ?? 10,
+      borderRadius: borderRadius ?? 10,
       marginTop: props.marginTop ?? 0,
       marginBottom: props.marginBottom ?? 0,
       marginLeft: props.marginLeft ?? 0,

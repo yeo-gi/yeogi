@@ -80,7 +80,7 @@ export default function SignupPage() {
   }, [nickname]);
 
   return (
-    <SafeAreaView style={[ConStyles.container, {alignItems: 'center'}]}>
+    <SafeAreaView style={[ConStyles.container]}>
       <Text style={userStyles.header}>회원가입</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{marginBottom: 57}}>
