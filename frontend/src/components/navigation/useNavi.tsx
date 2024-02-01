@@ -8,6 +8,8 @@ export type RootStackParam = {
   Login: undefined;
   Signup: undefined;
   ChatList: undefined;
+  RequriedAgreement: undefined;
+  OptionalAgreement: undefined;
 };
 
 export const useNavi = () => {

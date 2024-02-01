@@ -7,6 +7,8 @@ import CustomInput from '../../components/common/CustomInput';
 import CustomCheckBox from '../../components/common/CustomCheckBox';
 import {commonStyles, customColor} from '../../style/common/CommonStyle';
 import ActionBtn from '../../components/common/ActionBtn';
+import Entypo from 'react-native-vector-icons/FontAwesome6';
+import {useNavi} from '../../components/navigation/useNavi';
 
 export default function SignupPage() {
   // 입력 내용
@@ -29,6 +31,7 @@ export default function SignupPage() {
   const [total, setTotal] = useState(false);
   const [required, setRequired] = useState(false);
   const [optional, setOptional] = useState(false);
+  const [clickTotal, setClickTotal] = useState(false);
 
   // 비밀번호 유효성 검사
   useEffect(() => {
@@ -78,6 +81,33 @@ export default function SignupPage() {
       setNicknameMsg('⦁ 닉네임을 입력헤주세요.');
     }
   }, [nickname]);
+
+  // 약관 관련
+  useEffect(() => {
+    if (!clickTotal) {
+      if (required && optional) {
+        setTotal(true);
+      } else {
+        setTotal(false);
+      }
+    } else {
+      setClickTotal(false);
+    }
+  }, [total, required, optional, clickTotal]);
+
+  const totalAgreementFunc = () => {
+    setTotal(!total);
+    if (total) {
+      setRequired(true);
+      setOptional(true);
+    } else {
+      setRequired(false);
+      setOptional(false);
+    }
+    setClickTotal(true);
+  };
+
+  const navigation = useNavi();
 
   return (
     <SafeAreaView style={[ConStyles.container]}>
@@ -139,20 +169,40 @@ export default function SignupPage() {
         <View style={{width: '100%'}}>
           <CustomCheckBox
             isChecked={total}
-            onValueChangeHandler={setTotal}
+            onPress={totalAgreementFunc}
             title="전체 약관 동의"
           />
           <View style={styles.agreement}>
-            <CustomCheckBox
-              isChecked={required}
-              onValueChangeHandler={setRequired}
-              title="필수 약관 동의"
-            />
-            <CustomCheckBox
-              isChecked={optional}
-              onValueChangeHandler={setOptional}
-              title="선택 약관 동의"
-            />
+            <View style={{flexDirection: 'row'}}>
+              <CustomCheckBox
+                isChecked={required}
+                onValueChangeHandler={setRequired}
+                title="필수 약관 동의"
+                marginRight={15}
+              />
+              <Entypo
+                name="chevron-right"
+                color={'black'}
+                onPress={() => {
+                  navigation.navigate('RequriedAgreement');
+                }}
+              />
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <CustomCheckBox
+                isChecked={optional}
+                onValueChangeHandler={setOptional}
+                title="선택 약관 동의"
+                marginRight={15}
+              />
+              <Entypo
+                name="chevron-right"
+                color={'black'}
+                onPress={() => {
+                  navigation.navigate('OptionalAgreement');
+                }}
+              />
+            </View>
           </View>
         </View>
         <ActionBtn

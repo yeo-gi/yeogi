@@ -8,10 +8,12 @@ type CheckContent = {
   isChecked: boolean;
   disabled?: boolean;
   onValueChangeHandler?: (checked: boolean) => void;
+  onPress?: () => void;
   children?: React.ReactNode;
   style?: ViewStyle;
   title?: string;
   isBlue?: boolean;
+  marginRight?: number;
 };
 
 export default function CustomCheckBox(props: CheckContent) {
@@ -21,7 +23,10 @@ export default function CustomCheckBox(props: CheckContent) {
     }
   };
 
-  const styles = Styles(props.isBlue);
+  const styles = Styles({
+    isBlue: props.isBlue,
+    marginRight: props.marginRight,
+  });
   const [checkColor, setCheckcolor] = useState('white');
 
   useEffect(() => {
@@ -36,7 +41,7 @@ export default function CustomCheckBox(props: CheckContent) {
     <View style={styles.container}>
       <Pressable
         disabled={props.disabled}
-        onPress={onPressedHandler}
+        onPress={props.onValueChangeHandler ? onPressedHandler : props.onPress}
         style={[styles.checkbox, props.isChecked && styles.checked]}>
         <Entypo name="check" color={checkColor} />
       </Pressable>
@@ -45,12 +50,18 @@ export default function CustomCheckBox(props: CheckContent) {
   );
 }
 
-function Styles(isBlue?: boolean) {
-  const color = isBlue ? customColor.blue : null;
+type Props = {
+  isBlue?: boolean;
+  marginRight?: number;
+};
+
+function Styles(props: Props) {
+  const color = props.isBlue ? customColor.blue : null;
 
   return StyleSheet.create({
     container: {
       flexDirection: 'row',
+      marginRight: props.marginRight ?? 0,
     },
     checkbox: {
       height: 18,
