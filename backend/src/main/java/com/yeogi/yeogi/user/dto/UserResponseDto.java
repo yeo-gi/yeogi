@@ -1,7 +1,6 @@
-package com.yeogi.yeogi.trip.dto;
+package com.yeogi.yeogi.user.dto;
 
-import com.yeogi.yeogi.trip.entity.User;
-import lombok.AllArgsConstructor;
+import com.yeogi.yeogi.user.entity.User;
 import lombok.Builder;
 import lombok.Data;
 

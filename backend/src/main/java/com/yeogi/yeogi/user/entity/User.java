@@ -1,11 +1,15 @@
-package com.yeogi.yeogi.trip.entity;
+package com.yeogi.yeogi.user.entity;
 
+import com.yeogi.yeogi.chat.entity.Chatuser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -35,5 +39,12 @@ public class User {
 
     @Column(name = "profile_img")
     private String profileImg;
+
+    @OneToMany(mappedBy = "user")
+    private List<Chatuser> chatUsers = new ArrayList<>();
+
+    public User(Long userId) {
+        this.userId = userId;
+    }
 
 }

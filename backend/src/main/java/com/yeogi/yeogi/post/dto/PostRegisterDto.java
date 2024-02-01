@@ -1,7 +1,7 @@
 package com.yeogi.yeogi.post.dto;
 
 import com.yeogi.yeogi.post.entity.Post;
-import com.yeogi.yeogi.post.entity.User;
+import com.yeogi.yeogi.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

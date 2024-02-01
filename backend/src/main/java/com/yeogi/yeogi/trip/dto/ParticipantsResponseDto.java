@@ -2,6 +2,7 @@ package com.yeogi.yeogi.trip.dto;
 
 import com.yeogi.yeogi.trip.entity.InvitationStatus;
 import com.yeogi.yeogi.trip.entity.TripParticipants;
+import com.yeogi.yeogi.user.dto.UserResponseDto;
 import lombok.Builder;
 import lombok.Data;
 
