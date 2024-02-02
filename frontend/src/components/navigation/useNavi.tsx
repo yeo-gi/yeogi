@@ -9,6 +9,7 @@ export type RootStackParam = {
   Signup: undefined;
   ChatList: undefined;
   Post: {postId: number};
+  SelectDate: undefined;
 };
 
 export const useNavi = () => {
