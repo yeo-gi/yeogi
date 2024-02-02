@@ -10,6 +10,12 @@ import {customColor} from '../../style/common/CommonStyle';
 import ActionBtn from '../../components/common/ActionBtn';
 import Entypo from 'react-native-vector-icons/FontAwesome6';
 import {useNavi} from '../../components/navigation/useNavi';
+import {
+  removeWhitespace,
+  validateEmail,
+  validateNickname,
+  validatePw,
+} from '../../utils/util';
 
 export default function SignupPage() {
   // 입력 내용
@@ -19,11 +25,12 @@ export default function SignupPage() {
   const [nickname, setNickname] = useState('');
   // 유효성 검사
   const [emailVal, setEmailVal] = useState(false);
+  const [isEmailDuplicated, setIsEmailDuplicated] = useState(true);
   const [pwVal, setPwVal] = useState(false);
   const [confirmPwVal, setConfirmPwVal] = useState(false);
   const [nicknameVal, setNicknameVal] = useState(false);
   // 유효성 검사 메시지
-  const [emailMsg, setEmailMsg] = useState('⦁ 이메일 중복확인을 진행해주세요.');
+  const [emailMsg, setEmailMsg] = useState('⦁ 이메일을 입력해주세요.');
   const [pwMsg, setPwMsg] = useState('⦁ 비밀번호를 입력헤주세요.');
   const [confirmPwMsg, setConfirmPwMsg] =
     useState('⦁ 비밀번호 확인을 입력헤주세요.');
@@ -33,22 +40,41 @@ export default function SignupPage() {
   const [required, setRequired] = useState(false);
   const [optional, setOptional] = useState(false);
 
-  // 비밀번호 유효성 검사
+  // 이메일 유효성 검사
   useEffect(() => {
     if (email.length > 0) {
-      setEmailVal(true);
-      setEmailMsg('');
+      if (validateEmail(email)) {
+        setEmailVal(true);
+        if (isEmailDuplicated) {
+          setEmailMsg('⦁ 이메일 중복확인을 진행해주세요.');
+        } else {
+          setEmailMsg('⦁ 이메일 중복 확인이 완료되었습니다');
+          setEmailVal(true);
+        }
+      } else {
+        setEmailVal(false);
+        setEmailMsg('⦁ 이메일 형식에 맞게 입력해주세요.');
+      }
     } else {
-      setEmailVal(false);
-      setEmailMsg('⦁ 이메일 중복확인을 진행해주세요.');
+      setEmailMsg('⦁ 이메일을 입력해주세요.');
     }
-  }, [email]);
+  }, [email, isEmailDuplicated]);
+
+  // 이메일 중복체크
+  function EmailDuplicateCheck() {
+    setIsEmailDuplicated(!isEmailDuplicated);
+  }
 
   // 비밀번호 유효성 검사
   useEffect(() => {
     if (pw.length > 0) {
-      setPwVal(true);
-      setPwMsg('');
+      if (validatePw(pw)) {
+        setPwVal(true);
+        setPwMsg('');
+      } else {
+        setPwVal(false);
+        setPwMsg('⦁ 비밀번호 형식에 맞게 입력해주세요.');
+      }
     } else {
       setPwVal(false);
       setPwMsg('⦁ 비밀번호를 입력헤주세요.');
@@ -57,7 +83,7 @@ export default function SignupPage() {
 
   // 비밀번호 확인 유효성 검사
   useEffect(() => {
-    if (pw.length > 0) {
+    if (confirmPw.length > 0) {
       if (pw === confirmPw) {
         setConfirmPwVal(true);
         setConfirmPwMsg('⦁ 비밀번호가 확인되었습니다.');
@@ -74,8 +100,13 @@ export default function SignupPage() {
   // 닉네임 유효성 검사
   useEffect(() => {
     if (nickname.length > 0) {
-      setNicknameVal(true);
-      setNicknameMsg('');
+      if (validateNickname(nickname)) {
+        setNicknameVal(true);
+        setNicknameMsg('');
+      } else {
+        setNicknameVal(false);
+        setNicknameMsg('⦁ 닉네임 형식에 맞게 입력해주세요.');
+      }
     } else {
       setNicknameVal(false);
       setNicknameMsg('⦁ 닉네임을 입력헤주세요.');
@@ -124,13 +155,14 @@ export default function SignupPage() {
           setText={setEmail}
           placeholder="이메일"
           validationMsg={emailMsg}
-          isValidate={emailVal}
+          isValidate={emailVal && !isEmailDuplicated}
+          onPress={EmailDuplicateCheck}
         />
         <CustomInput
           title="비밀번호"
           text={pw}
           setText={setPw}
-          placeholder="비밀번호"
+          placeholder="영문자, 숫자 포함 8~16자리"
           isPw={true}
           validationMsg={pwMsg}
           isValidate={pwVal}
@@ -148,8 +180,7 @@ export default function SignupPage() {
           title="닉네임"
           text={nickname}
           setText={setNickname}
-          placeholder="닉네임"
-          isPw={true}
+          placeholder="2~8자리"
           validationMsg={nicknameMsg}
           isValidate={nicknameVal}
         />
@@ -211,11 +242,16 @@ type Props = {
   placeholder: string;
   validationMsg?: string;
   isValidate?: boolean;
+  onPress?: () => void;
 };
 
 function InputWithBtn(props: Props) {
   const isValidate = props.isValidate ?? false;
   const [color, setColor] = useState(customColor.gray50);
+
+  useEffect(() => {
+    props.setText(removeWhitespace(props.text));
+  }, [props.text, props]);
 
   useEffect(() => {
     if (isValidate) {
@@ -250,9 +286,7 @@ function InputWithBtn(props: Props) {
           color={customColor.blue}
           isRegular={true}
           width={'30%'}
-          onPress={() => {
-            console.log(`중복체크 ${props.text}`);
-          }}
+          onPress={props.onPress}
         />
       </View>
       <Text

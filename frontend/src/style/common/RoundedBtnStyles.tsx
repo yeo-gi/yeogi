@@ -70,8 +70,7 @@ export default function RoundedBtnStyles(props: Props) {
     },
     font: {
       fontSize: props.fontSize ?? 14,
-      fontFamily:
-        props.isRegular == null ? customFont.regular : customFont.bold,
+      fontFamily: props.isRegular ? customFont.regular : customFont.bold,
       color: props.isColor ? 'white' : props.backgroundColor,
     },
   });

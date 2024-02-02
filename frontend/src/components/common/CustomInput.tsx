@@ -3,13 +3,14 @@ import {View, Text, TextInput} from 'react-native';
 import {styles as BtnStyles} from '../../style/common/RoundedBtnStyles';
 import {userStyles} from '../../style/user/UserStyles';
 import {customColor} from '../../style/common/CommonStyle';
+import {removeWhitespace} from '../../utils/util';
 
 type InputContent = {
   title: string;
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   placeholder: string;
-  isPw: boolean;
+  isPw?: boolean;
   marginBottom?: number;
   validationMsg?: string;
   isValidate?: boolean;
@@ -18,6 +19,10 @@ type InputContent = {
 export default function CustomInput(props: InputContent) {
   const isValidate = props.isValidate ?? false;
   const [color, setColor] = useState(customColor.gray50);
+
+  useEffect(() => {
+    props.setText(removeWhitespace(props.text));
+  }, [props.text, props]);
 
   useEffect(() => {
     if (isValidate) {
