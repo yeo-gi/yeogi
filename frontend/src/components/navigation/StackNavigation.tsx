@@ -10,6 +10,7 @@ import {
   OptionalAgreementPage,
   RequiredAgreementPage,
 } from '../../pages/user/AgreementPage';
+import Start from '../../pages/Start';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +55,11 @@ export default function StackNavigation() {
       <Stack.Screen
         name="OptionalAgreement"
         component={OptionalAgreementPage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Start"
+        component={Start}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

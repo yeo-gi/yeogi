@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TextInput} from 'react-native';
 import {styles as BtnStyles} from '../../style/common/RoundedBtnStyles';
 import {userStyles} from '../../style/user/UserStyles';
@@ -17,6 +17,19 @@ type InputContent = {
 
 export default function CustomInput(props: InputContent) {
   const isValidate = props.isValidate ?? false;
+  const [color, setColor] = useState(customColor.gray50);
+
+  useEffect(() => {
+    if (isValidate) {
+      setColor(customColor.blue);
+    } else {
+      if (props.text) {
+        setColor(customColor.red);
+      } else {
+        setColor(customColor.gray50);
+      }
+    }
+  }, [isValidate, props.text]);
 
   return (
     <View
@@ -38,7 +51,7 @@ export default function CustomInput(props: InputContent) {
         style={[
           userStyles.pressableSmallText,
           props.validationMsg ? {marginTop: 5} : {marginTop: 0},
-          isValidate ? {color: customColor.blue} : {color: customColor.red},
+          {color: color},
         ]}>
         {props.validationMsg}
       </Text>

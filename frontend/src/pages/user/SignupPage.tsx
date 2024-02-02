@@ -215,6 +215,19 @@ type Props = {
 
 function InputWithBtn(props: Props) {
   const isValidate = props.isValidate ?? false;
+  const [color, setColor] = useState(customColor.gray50);
+
+  useEffect(() => {
+    if (isValidate) {
+      setColor(customColor.blue);
+    } else {
+      if (props.text) {
+        setColor(customColor.red);
+      } else {
+        setColor(customColor.gray50);
+      }
+    }
+  }, [isValidate, props.text]);
 
   return (
     <View style={[BtnStyles.container, {marginBottom: 57}]}>
@@ -246,7 +259,7 @@ function InputWithBtn(props: Props) {
         style={[
           userStyles.pressableSmallText,
           props.validationMsg ? {marginTop: 5} : {marginTop: 0},
-          isValidate ? {color: customColor.blue} : {color: customColor.red},
+          {color: color},
         ]}>
         {props.validationMsg}
       </Text>
