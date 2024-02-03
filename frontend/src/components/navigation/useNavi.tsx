@@ -11,6 +11,7 @@ export type RootStackParam = {
   ChatList: undefined;
   RequriedAgreement: undefined;
   OptionalAgreement: undefined;
+  Post: {postId: number};
 };
 
 export const useNavi = () => {

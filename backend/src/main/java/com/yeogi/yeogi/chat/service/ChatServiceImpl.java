@@ -37,6 +37,10 @@ public class ChatServiceImpl implements ChatService {
         Long userId = room.getUserId();
         Long otherUserId = room.getOtherUserId();
 
+        if (userId.equals(otherUserId)) {
+            throw new IllegalArgumentException("두 사용자 ID는 같을 수 없습니다.");
+        }
+
         log.info("아이디: {}, {}", userId, otherUserId);
 
         Long roomId = Optional.ofNullable(chatuserRepository.findChatRoomByUserIds(userId, otherUserId))

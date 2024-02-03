@@ -11,6 +11,8 @@ import {
   RequiredAgreementPage,
 } from '../../pages/user/AgreementPage';
 import Start from '../../pages/Start';
+import PostPage from '../../pages/community/PostPage';
+import InvitationPage from '../../pages/invitation/InvitationPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +62,16 @@ export default function StackNavigation() {
       <Stack.Screen
         name="Start"
         component={Start}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Post"
+        component={PostPage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Invitation"
+        component={InvitationPage}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

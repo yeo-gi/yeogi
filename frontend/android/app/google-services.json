@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "122625812026",
+    "project_id": "yeogi-3b6e6",
+    "storage_bucket": "yeogi-3b6e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122625812026:android:8e305fe53d57633300f703",
+        "android_client_info": {
+          "package_name": "com.yeogi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDikBS4HJAsHXBHb4CQDINGIkBlKfXMYFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
