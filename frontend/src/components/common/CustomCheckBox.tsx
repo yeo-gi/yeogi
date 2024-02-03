@@ -1,15 +1,19 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, StyleSheet, View, ViewStyle, Text} from 'react-native';
 import {customColor} from '../../style/common/CommonStyle';
 import {userStyles} from '../../style/user/UserStyles';
+import Entypo from 'react-native-vector-icons/FontAwesome6';
 
 type CheckContent = {
   isChecked: boolean;
   disabled?: boolean;
   onValueChangeHandler?: (checked: boolean) => void;
+  onPress?: () => void;
   children?: React.ReactNode;
   style?: ViewStyle;
   title?: string;
+  isBlue?: boolean;
+  marginRight?: number;
 };
 
 export default function CustomCheckBox(props: CheckContent) {
@@ -19,36 +23,64 @@ export default function CustomCheckBox(props: CheckContent) {
     }
   };
 
+  const styles = Styles({
+    isBlue: props.isBlue,
+    marginRight: props.marginRight,
+  });
+  const [checkColor, setCheckcolor] = useState('white');
+
+  useEffect(() => {
+    if (!props.isChecked || props.isBlue === true) {
+      setCheckcolor('white');
+    } else {
+      setCheckcolor('black');
+    }
+  }, [props.isChecked, props.isBlue]);
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {alignItems: 'center'}]}>
       <Pressable
         disabled={props.disabled}
-        onPress={onPressedHandler}
-        style={[styles.checkbox, props.isChecked && styles.checked]}
-      />
-      <Text style={[userStyles.title, {marginLeft: 9}]}>{props.title}</Text>
+        onPress={props.onValueChangeHandler ? onPressedHandler : props.onPress}
+        style={[styles.checkbox, props.isChecked && styles.checked]}>
+        <Entypo name="check" color={checkColor} />
+      </Pressable>
+      <Text style={[userStyles.title, {marginLeft: 9, marginTop: 3}]}>
+        {props.title}
+      </Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-  },
-  checkbox: {
-    height: 18,
-    width: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: customColor.gray30,
-    borderColor: customColor.gray30,
-    borderWidth: 1,
-  },
-  checked: {
-    backgroundColor: 'white',
-    borderColor: customColor.softBlack,
-  },
-  label: {
-    marginLeft: 8,
-  },
-});
+type Props = {
+  isBlue?: boolean;
+  marginRight?: number;
+};
+
+function Styles(props: Props) {
+  const color = props.isBlue ? customColor.blue : null;
+
+  return StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      marginRight: props.marginRight ?? 0,
+    },
+    checkbox: {
+      height: 18,
+      width: 18,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'white',
+      borderColor: color ?? customColor.gray30,
+      borderWidth: 1,
+      borderRadius: 2,
+    },
+    checked: {
+      backgroundColor: color ?? customColor.gray30,
+      borderColor: color ?? customColor.gray30,
+    },
+    label: {
+      marginLeft: 8,
+    },
+  });
+}

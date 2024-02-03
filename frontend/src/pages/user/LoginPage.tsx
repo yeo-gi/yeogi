@@ -8,15 +8,29 @@ import CustomCheckBox from '../../components/common/CustomCheckBox';
 import {commonStyles} from '../../style/common/CommonStyle';
 import PressableSmallText from '../../components/common/PressableSmallText';
 import ActionBtn from '../../components/common/ActionBtn';
+import {useNavi} from '../../components/navigation/useNavi';
+import Entypo from 'react-native-vector-icons/FontAwesome6';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
   const [isKeep, setKeep] = useState(false);
 
+  const navigation = useNavi();
+
   return (
     <SafeAreaView style={ConStyles.container}>
-      <Text style={userStyles.header}>로그인</Text>
+      <View>
+        <Entypo
+          name="arrow-left-long"
+          color={'black'}
+          style={{marginTop: 15, marginBottom: 7}}
+          onPress={() => {
+            navigation.pop();
+          }}
+        />
+        <Text style={[userStyles.header]}>로그인</Text>
+      </View>
       <CustomInput
         title="이메일"
         text={email}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {DimensionValue, Pressable, Text, View} from 'react-native';
 import RoundedBtnStyles from '../../style/common/RoundedBtnStyles';
 
 type BtnContent = {
@@ -11,7 +11,9 @@ type BtnContent = {
   emptyBorderColor?: string;
   fontSize?: number;
   isRegular?: boolean;
-  width?: number;
+  isRound?: boolean;
+  width?: DimensionValue;
+  widthPer?: string;
   marginTop?: number;
   marginBottom?: number;
   marginLeft?: number;
@@ -28,6 +30,7 @@ export default function ActionBtn(props: BtnContent) {
     fontSize: props.fontSize,
     isRegular: props.isRegular,
     isColor: props.isColor,
+    isRound: props.isRound,
     width: props.width,
     marginTop: props.marginTop,
     marginBottom: props.marginBottom,
