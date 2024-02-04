@@ -7,6 +7,9 @@ import com.yeogi.yeogi.comment.entity.Comment;
 import com.yeogi.yeogi.comment.repository.CommentRepository;
 import com.yeogi.yeogi.post.entity.Post;
 import com.yeogi.yeogi.post.service.PostService;
+import com.yeogi.yeogi.user.domain.User;
+import com.yeogi.yeogi.user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +25,16 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final PostService postService;
+    private final UserRepository userRepository;
 
     @Override
     public boolean createComment(Long postId, CommentRegisterDto commentDto) {
         try {
             Post ownerPost = postService.getPostForDto(postId);
+            User user = userRepository.findByUserId(commentDto.getUserId())
+                    .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다: " + commentDto.getUserId()));
 
-            Comment savedComment = commentDto.toComment(ownerPost);
+            Comment savedComment = commentDto.toComment(ownerPost, user);
 
             commentRepository.save(savedComment);
             return true;
@@ -42,10 +48,12 @@ public class CommentServiceImpl implements CommentService {
         try {
             Comment parentComment = Optional.of(commentRepository.findByCommentId(commentId))
                     .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 코멘트입니다."));
+            User user = userRepository.findByUserId(reCommentDto.getUserId())
+                    .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다: " + reCommentDto.getUserId()));
 
             Post ownerPost = postService.getPostForDto(postId);
 
-            Comment savedRecomment = reCommentDto.toRecomment(ownerPost, parentComment);
+            Comment savedRecomment = reCommentDto.toRecomment(ownerPost, parentComment, user);
             commentRepository.save(savedRecomment);
             return true;
         } catch (Exception e) {

@@ -46,7 +46,7 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공시 글 내용, 실패시 Fail 반환")
     })
-    public ResponseEntity<?> getPost(@PathVariable Long postId) {
+    public ResponseEntity<?> getPost(@PathVariable(value = "postId") Long postId) {
         PostResponseDto post = postService.getPost(postId);
         if (post != null) {
             return new ResponseEntity<>(post, HttpStatus.OK);
@@ -75,7 +75,7 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공시 수정 내용, 실패시 Fail 반환")
     })
-    public ResponseEntity<?> updatePost(@PathVariable Long postId, @RequestBody PostRegisterDto post) {
+    public ResponseEntity<?> updatePost(@PathVariable(value = "postId") Long postId, @RequestBody PostRegisterDto post) {
         Long updatedPost = postService.updatePost(postId, post);
         if (updatedPost != null) {
             return new ResponseEntity<>(post, HttpStatus.OK);
@@ -89,7 +89,7 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공시 완료 텍스트, 실패시 Fail 반환")
     })
-    public ResponseEntity<?> deletePost(@PathVariable Long postId) {
+    public ResponseEntity<?> deletePost(@PathVariable(value = "postId") Long postId) {
         boolean isDeleted = postService.deletePost(postId);
         if (isDeleted) {
             return new ResponseEntity<>("글 삭제가 완료되었습니다.", HttpStatus.OK);

@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
   profileTitle: {
+    marginTop: 2,
     fontSize: 6,
   },
   postContainer: {

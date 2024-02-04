@@ -29,7 +29,7 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공시 완료 텍스트, 실패시 Fail 반환")
     })
-    public ResponseEntity<?> createComment(@PathVariable Long postId, @RequestBody CommentRegisterDto comment) {
+    public ResponseEntity<?> createComment(@PathVariable(value = "postId") Long postId, @RequestBody CommentRegisterDto comment) {
         boolean createdComment = commentService.createComment(postId, comment);
         if (createdComment) {
             return new ResponseEntity<>("댓글 작성이 완료되었습니다.", HttpStatus.OK);
@@ -43,7 +43,7 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공시 완료 텍스트, 실패시 Fail 반환")
     })
-    public ResponseEntity<?> createRecomment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody CommentRegisterDto comment) {
+    public ResponseEntity<?> createRecomment(@PathVariable(value = "postId") Long postId, @PathVariable(value = "commentId") Long commentId, @RequestBody CommentRegisterDto comment) {
         boolean createdRecomment = commentService.createRecomment(postId, commentId, comment);
             if (createdRecomment) {
                 return new ResponseEntity<>("대댓글 작성이 완료되었습니다.", HttpStatus.OK);
@@ -58,7 +58,7 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공시 댓글 목록, 실패시 Fail 반환")
     })
-    public ResponseEntity<?> getComments(@PathVariable Long postId) {
+    public ResponseEntity<?> getComments(@PathVariable(value = "postId") Long postId) {
         List<CommentResponseDto> comments = commentService.getComments(postId);
         if (comments != null) {
             return new ResponseEntity<>(comments, HttpStatus.OK);
@@ -72,7 +72,7 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공시 성공 텍스트, 실패시 Fail 반환")
     })
-    public ResponseEntity<?> updateComment(@PathVariable Long commentId, @RequestBody CommentRegisterDto comment) {
+    public ResponseEntity<?> updateComment(@PathVariable(value = "postId") Long postId, @PathVariable(value = "commentId") Long commentId, @RequestBody CommentRegisterDto comment) {
         Long updatedComment = commentService.updateComment(commentId, comment);
         if (updatedComment != null) {
             return new ResponseEntity<>("댓글 수정이 완료되었습니다.", HttpStatus.OK);
@@ -86,7 +86,7 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공시 성공 텍스트, 실패시 Fail 반환")
     })
-    public ResponseEntity<?> updateRecomment(@PathVariable Long commentId, @PathVariable Long parentCommentId, @RequestBody CommentRegisterDto comment) {
+    public ResponseEntity<?> updateRecomment(@PathVariable(value = "postId") Long postId, @PathVariable(value = "commentId") Long commentId, @PathVariable(value = "parentCommentId") Long parentCommentId, @RequestBody CommentRegisterDto comment) {
         Long updatedComment = commentService.updateRecomment(commentId, parentCommentId, comment);
         if (updatedComment != null) {
             return new ResponseEntity<>("댓글 수정이 완료되었습니다.", HttpStatus.OK);
@@ -100,7 +100,7 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공시 성공 텍스트, 실패시 Fail 반환")
     })
-    public ResponseEntity<?> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+    public ResponseEntity<?> deleteComment(@PathVariable(value = "postId") Long postId, @PathVariable(value = "commentId") Long commentId) {
         boolean deleteComment = commentService.deleteComment(commentId);
         if (deleteComment) {
             return new ResponseEntity<>("댓글 삭제가 완료되었습니다.", HttpStatus.OK);

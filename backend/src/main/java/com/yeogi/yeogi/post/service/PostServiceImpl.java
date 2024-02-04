@@ -4,6 +4,9 @@ import com.yeogi.yeogi.post.dto.PostRegisterDto;
 import com.yeogi.yeogi.post.dto.PostResponseDto;
 import com.yeogi.yeogi.post.entity.Post;
 import com.yeogi.yeogi.post.repository.PostRepository;
+import com.yeogi.yeogi.user.domain.User;
+import com.yeogi.yeogi.user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -21,7 +24,9 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
     private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Override
     public List<PostResponseDto> getPosts() {
         try {
@@ -47,7 +52,6 @@ public class PostServiceImpl implements PostService {
     public PostResponseDto getPost(Long postId) {
         try {
             Optional<Post> optionalPost = postRepository.findById(postId);
-
             return optionalPost.map(PostResponseDto::new).orElse(null);
         } catch (Exception e) {
             return null;
@@ -70,10 +74,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public boolean createPost(PostRegisterDto postDto) {
         try {
-            Post savedPost = postDto.toPost();
+            User user = userRepository.findByUserId(postDto.getUserId())
+                    .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다: " + postDto.getUserId()));
+
+            Post savedPost = postDto.toPost(user);
             postRepository.save(savedPost);
             return true;
         } catch (Exception e) {
+            log.info("에러", e);
             return false;
         }
     }

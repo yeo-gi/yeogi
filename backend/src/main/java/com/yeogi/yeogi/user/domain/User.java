@@ -1,11 +1,15 @@
 package com.yeogi.yeogi.user.domain;
 
+import com.yeogi.yeogi.chat.entity.Chatuser;
 import com.yeogi.yeogi.user.dto.OAuthInfoResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO 1.User 랑 Comment entity 를 post 패키지에 넣어논 이유가 있으신쥐..?
 //User는 임시.. 입니다요 코멘트는.. 그러게요?
@@ -56,6 +60,9 @@ public class User {
     @Column(nullable = false)
     private String gender;
 
+    @OneToMany(mappedBy = "user")
+    private List<Chatuser> chatUsers = new ArrayList<>();
+
 
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
@@ -66,3 +73,5 @@ public class User {
     }
 
 }
+
+
