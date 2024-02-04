@@ -20,7 +20,7 @@ public class RecommentResponseDto {
     public RecommentResponseDto(Comment comment) {
         this.postId = comment.getPost().getPostId();
         this.commentId = comment.getCommentId();
-        this.nickname = comment.getUser().getNickname();
+        this.nickname = comment.getUser().getUserInfo().getNickName();
         this.content = comment.getContent();
         this.commentTime = comment.getCommentTime();
     }

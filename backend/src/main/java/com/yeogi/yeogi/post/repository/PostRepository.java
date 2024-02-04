@@ -12,8 +12,8 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query("SELECT new com.yeogi.yeogi.post.dto.PostResponseDto(p.postId, p.title, p.content, p.updatedDate, u.userId, u.nickname) " +
-            "FROM Post p JOIN p.user u")
-    List<PostResponseDto> findAllPostResponseDto();
+//    @Query("SELECT new com.yeogi.yeogi.post.dto.PostResponseDto(p.postId, p.title, p.content, p.updatedDate, u.userId, u.nickname) " +
+//            "FROM Post p JOIN p.user u")
+//    List<PostResponseDto> findAllPostResponseDto();
     Post findByPostId(Long postId);
 }

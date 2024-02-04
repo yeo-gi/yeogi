@@ -33,17 +33,13 @@ public class User {
     @Column(nullable = false)
     private String birthday;
 
-    @Column(name = "nickname", nullable = false)
-    private String nickname;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
     @Column(name = "joined_trips")
     private String joinedTrips;
 
-    @Column(name = "profile_img")
-    private String profileImg;
 
     @Enumerated(EnumType.STRING)
     private OAuthProvider oAuthProvider;

@@ -81,7 +81,7 @@ public class OAuthLoginService {
 
 //        return memberRepository.findByEmail(oAuthInfoResponse.getEmail())
         return userRepository.findByEmail(email)
-                .orElseGet(() -> new User(oAuthInfoResponse));
+                .orElseGet(() -> newUser(oAuthInfoResponse));
     }
 
 
