@@ -13,6 +13,7 @@ type BtnContent = {
   emptyBorderColor?: string;
   fontSize?: number;
   isRegular?: boolean;
+  isRound?: boolean;
   width?: number;
   marginTop?: number;
   marginBottom?: number;
@@ -30,6 +31,7 @@ export default function NavigateBtn(props: BtnContent) {
     fontSize: props.fontSize,
     isRegular: props.isRegular,
     isColor: props.isColor,
+    isRound: props.isRound,
     width: props.width,
     marginTop: props.marginTop,
     marginBottom: props.marginBottom,

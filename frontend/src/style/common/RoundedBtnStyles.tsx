@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {DimensionValue, StyleSheet} from 'react-native';
 import {customColor, customFont} from './CommonStyle';
 
 export const styles = StyleSheet.create({
@@ -23,10 +23,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // font: {
-  //   fontSize: 14,
-  //   fontFamily: customFont.bold,
-  // },
 });
 
 type Props = {
@@ -38,18 +34,20 @@ type Props = {
   fontSize?: number;
   isRegular?: boolean;
   isColor?: boolean;
-  width?: number;
+  isRound?: boolean;
+  width?: DimensionValue;
   marginTop?: number;
   marginBottom?: number;
   marginLeft?: number;
 };
 
 export default function RoundedBtnStyles(props: Props) {
+  const borderRadius = props.isRound ? 100 : props.borderRadius;
   return StyleSheet.create({
     container: {
       width: props.width ?? '100%',
       height: 49,
-      borderRadius: props.borderRadius ?? 10,
+      borderRadius: borderRadius ?? 10,
       marginTop: props.marginTop ?? 0,
       marginBottom: props.marginBottom ?? 0,
       marginLeft: props.marginLeft ?? 0,
@@ -72,8 +70,7 @@ export default function RoundedBtnStyles(props: Props) {
     },
     font: {
       fontSize: props.fontSize ?? 14,
-      fontFamily:
-        props.isRegular == null ? customFont.regular : customFont.bold,
+      fontFamily: props.isRegular ? customFont.regular : customFont.bold,
       color: props.isColor ? 'white' : props.backgroundColor,
     },
   });
