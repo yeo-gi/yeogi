@@ -6,14 +6,17 @@ import HomeImage from '../components/home/HomeImage';
 
 export default function Home() {
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-      <NavigateBtn
-        msg="시작페이지"
-        route="Start"
-        isColor={true}
-        marginBottom={7}
-      />
+    <View>
+      <HomeImage />
+      <View style={styles.container}>
+        <Text>Home</Text>
+        <NavigateBtn
+          msg="시작페이지"
+          route="Start"
+          isColor={true}
+          marginBottom={7}
+        />
+      </View>
     </View>
   );
 }

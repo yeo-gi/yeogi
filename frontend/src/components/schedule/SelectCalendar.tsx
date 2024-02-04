@@ -1,4 +1,4 @@
-import {Text, View} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {CalendarList} from 'react-native-calendars';
 import {styles} from '../../style/schedule/SelectCalendarStyle';
@@ -8,6 +8,7 @@ import {DefaultText} from '../../style/DefaultText';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store/Store';
 import {addSchedule} from '../../store/ScheduleSlice';
+import {useNavi} from '../navigation/useNavi';
 
 type DayType = {
   dateString: string;
@@ -24,7 +25,7 @@ export default function SelectCalendar() {
   const [endDate, setEndDate] = useState<string | null>(null);
 
   const dispatch = useDispatch();
-  console.log(schedule);
+  const navigation = useNavi();
 
   useEffect(() => {
     const today = new Date();
@@ -140,12 +141,16 @@ export default function SelectCalendar() {
         />
       </View>
       <View style={styles.btnContainer}>
-        <View style={styles.cancelBtn}>
-          <Text style={styles.cancelText}>취소</Text>
-        </View>
-        <View style={styles.selectBtn}>
-          <Text style={styles.selectText}>선택</Text>
-        </View>
+        <TouchableOpacity onPress={navigation.goBack}>
+          <View style={styles.cancelBtn}>
+            <Text style={styles.cancelText}>취소</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <View style={styles.selectBtn}>
+            <Text style={styles.selectText}>선택</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
