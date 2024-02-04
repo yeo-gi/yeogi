@@ -43,7 +43,7 @@ public class Comment {
     private boolean isDeleted;
 
     @ManyToOne
-    @JoinColumn(name = "parent_id", nullable = false)
+    @JoinColumn(name = "parent_id")
     private Comment parent;
 
 
