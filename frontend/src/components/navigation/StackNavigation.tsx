@@ -13,6 +13,7 @@ import {
 import Start from '../../pages/Start';
 import PostPage from '../../pages/community/PostPage';
 import InvitationPage from '../../pages/invitation/InvitationPage';
+import LocationSearchPage from '../../pages/trip/LocationSearchPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +73,11 @@ export default function StackNavigation() {
       <Stack.Screen
         name="Invitation"
         component={InvitationPage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="LocationSearch"
+        component={LocationSearchPage}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
