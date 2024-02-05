@@ -1,10 +1,12 @@
-import {ScrollView, View} from 'react-native';
+import {Keyboard, ScrollView, View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParam} from '../../components/navigation/useNavi';
 import ChatBtn from '../../components/chatting/Chat';
 import ChatList from '../../components/chatting/ChatList';
 import {Chat} from '../../components/chatting/ChatType';
+import ChatHeader from '../../components/chatting/ChatHeader';
+import {styles} from '../../style/chat/ChatPageStyle';
 
 const TextEncodingPolyfill = require('text-encoding');
 Object.assign(global, {
@@ -26,12 +28,33 @@ export default function ChattingPage() {
     }
   }, [chats]);
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        if (scrollViewRef.current) {
+          scrollViewRef.current.scrollToEnd({animated: true});
+        }
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+    };
+  }, [scrollViewRef]);
+
   return (
-    <ScrollView ref={scrollViewRef}>
-      <View>
-        <ChatList roomId={params.roomId} chats={chats} setChats={setChats} />
-        <ChatBtn roomId={params.roomId} chats={chats} setChats={setChats} />
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <ChatHeader roomName={params.roomName} />
+      <ScrollView ref={scrollViewRef}>
+        <ChatList
+          roomId={params.roomId}
+          chats={chats}
+          setChats={setChats}
+          profileImg={params.profileImg}
+        />
+      </ScrollView>
+      <ChatBtn roomId={params.roomId} chats={chats} setChats={setChats} />
+    </View>
   );
 }

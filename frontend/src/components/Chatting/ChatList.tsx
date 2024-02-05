@@ -1,9 +1,23 @@
-import {View, Text} from 'react-native';
-import React, {useEffect} from 'react';
+import {View} from 'react-native';
+import React, {Dispatch, SetStateAction, useEffect} from 'react';
 import {getChat} from '../../apis/communityAPI/ChattingAPI';
-import {ChatListProps} from './ChatListType';
+import MyChatBubble from './MyChatBubble';
+import OtherChatbubble from './OtherChatBubble';
+import {Chat} from './ChatType';
 
-export default function ChatList({roomId, chats, setChats}: ChatListProps) {
+export default function ChatList({
+  roomId,
+  chats,
+  setChats,
+  profileImg,
+}: {
+  roomId: number;
+  chats: Chat[];
+  setChats: Dispatch<SetStateAction<Chat[]>>;
+  profileImg: string;
+}) {
+  const userId = 1;
+
   useEffect(() => {
     const fetchChatList = async () => {
       try {
@@ -21,8 +35,11 @@ export default function ChatList({roomId, chats, setChats}: ChatListProps) {
     <View>
       {chats.map((chat, index) => (
         <View key={index}>
-          <Text>{`User ${chat.userId}: ${chat.content}`}</Text>
-          <Text>{`Date: ${chat.createdDate}`}</Text>
+          {userId === chat.userId ? (
+            <MyChatBubble chat={chat} />
+          ) : (
+            <OtherChatbubble chat={chat} profileImg={profileImg} />
+          )}
         </View>
       ))}
     </View>
