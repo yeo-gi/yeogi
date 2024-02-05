@@ -21,7 +21,11 @@ export default function PostMain({post}: {post: Post | null}) {
       post?.userId as number,
     )) as number;
     setRoomNo(createdRoom);
-    navigation.navigate('Chatting', {roomId: createdRoom});
+    navigation.navigate('Chatting', {
+      roomId: createdRoom,
+      roomName: post?.nickname as string,
+      profileImg: post?.profileImg as string,
+    });
   }
 
   return (
