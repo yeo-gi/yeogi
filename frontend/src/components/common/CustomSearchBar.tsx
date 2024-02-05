@@ -11,6 +11,7 @@ type Props = {
   placeholder: string;
   marginTop?: number;
   marginBottom?: number;
+  onPress?: () => void;
 };
 
 export default function CustomSearchBar(props: Props) {
@@ -42,9 +43,7 @@ export default function CustomSearchBar(props: Props) {
           color={'black'}
           style={{}}
           size={17}
-          onPress={() => {
-            console.log(`검색어 ${props.text}`);
-          }}
+          onPress={props.onPress}
         />
       </View>
     </View>
