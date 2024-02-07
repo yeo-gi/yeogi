@@ -3,7 +3,7 @@ import {View, Text, TextInput} from 'react-native';
 import {styles as BtnStyles} from '../../style/common/RoundedBtnStyles';
 import {userStyles} from '../../style/user/UserStyles';
 import {customColor} from '../../style/common/CommonStyle';
-import {removeWhitespace} from '../../utils/util';
+import {removeWhitespace} from '../../hooks/Validation';
 
 type InputContent = {
   title: string;

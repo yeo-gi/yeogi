@@ -12,6 +12,7 @@ export type RootStackParam = {
   RequriedAgreement: undefined;
   OptionalAgreement: undefined;
   Post: {postId: number};
+  LocationSearch: undefined;
   SelectDate: undefined;
 };
 
