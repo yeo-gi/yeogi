@@ -1,6 +1,6 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {customColor} from '../../style/common/CommonStyle';
+import {customColor, customFont} from '../../style/common/CommonStyle';
 
 export default function SNSLogin() {
   return (
@@ -11,7 +11,9 @@ export default function SNSLogin() {
         <View style={styles.xLine} />
       </View>
       <View style={styles.body}>
-        <Pressable style={styles.circle}></Pressable>
+        <Pressable style={styles.circle}>
+          <Text style={styles.naver}>N</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -41,8 +43,13 @@ const styles = StyleSheet.create({
   circle: {
     width: 48,
     height: 48,
-    borderColor: customColor.gray10,
+    borderColor: customColor.lightViolet,
     borderWidth: 1,
     borderRadius: 1000,
+  },
+  naver: {
+    fontFamily: customFont.bold,
+    fontSize: 22,
+    color: 'black',
   },
 });

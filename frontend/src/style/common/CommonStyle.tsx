@@ -10,6 +10,7 @@ export const customColor = {
   gray70: '#50555C',
   blue: '#007AFF',
   red: '#F93535',
+  lightViolet: '#E1E0F1',
 };
 
 export const customFont = {
