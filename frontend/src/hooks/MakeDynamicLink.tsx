@@ -1,7 +1,7 @@
 import axios from 'axios';
+import {DynamicLink_URI_KEY} from '@env';
 
-const uriKey =
-  'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyDikBS4HJAsHXBHb4CQDINGIkBlKfXMYFY';
+const uriKey = `https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=${DynamicLink_URI_KEY}`;
 
 export const MakeDynamicLink = async (params: number, value: number) => {
   const {data} = await axios({

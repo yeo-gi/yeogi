@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {customFont} from '../common/CommonStyle';
 
 export const styles = StyleSheet.create({
   postCardContainer: {
@@ -36,5 +37,12 @@ export const styles = StyleSheet.create({
   postContent: {
     fontSize: 9,
     lineHeight: 18,
+    fontFamily: customFont.regular,
+    color: 'black',
+    paddingBottom: 5,
+  },
+  postTime: {
+    fontSize: 9,
+    fontFamily: customFont.regular,
   },
 });
