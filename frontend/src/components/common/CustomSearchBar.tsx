@@ -3,6 +3,7 @@ import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {styles as BtnStyles} from '../../style/common/RoundedBtnStyles';
 import {userStyles} from '../../style/user/UserStyles';
 import Entypo from 'react-native-vector-icons/FontAwesome6';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 type Props = {
   title: string;
@@ -38,8 +39,8 @@ export default function CustomSearchBar(props: Props) {
           placeholder={props.placeholder}
           placeholderTextColor={'#999999'}
         />
-        <Entypo
-          name="searchengin"
+        <Fontisto
+          name="search"
           color={'black'}
           style={{}}
           size={17}

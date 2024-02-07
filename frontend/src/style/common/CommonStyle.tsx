@@ -2,12 +2,15 @@ import {StyleSheet} from 'react-native';
 
 export const customColor = {
   softBlack: '#2F2F2F',
+  gray10: '#E1E0F1',
   gray20: '#CCCCCC',
   gray30: '#D9D9D9',
   gray40: '#B2B2B2',
   gray50: '#999999',
+  gray70: '#50555C',
   blue: '#007AFF',
   red: '#F93535',
+  lightViolet: '#E1E0F1',
 };
 
 export const customFont = {
