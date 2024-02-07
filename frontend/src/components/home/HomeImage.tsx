@@ -9,7 +9,7 @@ export default function HomeImage() {
   return (
     <TouchableOpacity onPress={() => navigation.navigate('SelectDate')}>
       <Image
-        source={require('../../assets/images/temp.jpg')}
+        source={require('../../assets/images/yeogi.png')}
         style={styles.image}
       />
     </TouchableOpacity>
