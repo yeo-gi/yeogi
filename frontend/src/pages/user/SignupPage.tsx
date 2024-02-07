@@ -16,13 +16,18 @@ import {
   validateNickname,
   validatePw,
 } from '../../hooks/Validation';
+import {confirmMail, sendMail} from '../../apis/userAPI/SignupAPI';
 
 export default function SignupPage() {
   // 입력 내용
   const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
   const [pw, setPw] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
   const [nickname, setNickname] = useState('');
+  // 이메일 인증
+  const [isSendMail, setIsSendMail] = useState(false);
+  const [isConfirmMail, setIsConfirmMail] = useState(false);
   // 유효성 검사
   const [emailVal, setEmailVal] = useState(false);
   const [isEmailDuplicated, setIsEmailDuplicated] = useState(true);
@@ -31,6 +36,7 @@ export default function SignupPage() {
   const [nicknameVal, setNicknameVal] = useState(false);
   // 유효성 검사 메시지
   const [emailMsg, setEmailMsg] = useState('⦁ 이메일을 입력해주세요.');
+  const [codeMsg, setCodeMsg] = useState('');
   const [pwMsg, setPwMsg] = useState('⦁ 비밀번호를 입력헤주세요.');
   const [confirmPwMsg, setConfirmPwMsg] =
     useState('⦁ 비밀번호 확인을 입력헤주세요.');
@@ -62,7 +68,35 @@ export default function SignupPage() {
 
   // 이메일 중복체크
   function EmailDuplicateCheck() {
+    // const response = checkEmail(email);
+
     setIsEmailDuplicated(!isEmailDuplicated);
+  }
+
+  // 이메일 인증
+  async function onPressSendMail() {
+    const response = await sendMail(email);
+    console.log(response);
+    if (response !== null) {
+      setIsSendMail(true);
+      setCodeMsg('⦁ 인증 번호를 입력해주세요.');
+    } else {
+      setCodeMsg('⦁ 다시 시도해주세요.');
+    }
+  }
+
+  async function onPressConfirmMail() {
+    const response = await confirmMail(email, code);
+    if (response !== null) {
+      setIsConfirmMail(response);
+      if (response) {
+        setCodeMsg('⦁ 인증이 완료되었습니다.');
+      } else {
+        setCodeMsg('⦁ 인증에 실패하였습니다.');
+      }
+    } else {
+      setCodeMsg('⦁ 다시 시도해주세요.');
+    }
   }
 
   // 비밀번호 유효성 검사
@@ -156,7 +190,18 @@ export default function SignupPage() {
           placeholder="이메일"
           validationMsg={emailMsg}
           isValidate={emailVal && !isEmailDuplicated}
+          btnTitle="중복체크"
           onPress={EmailDuplicateCheck}
+        />
+        <InputWithBtn
+          title="이메일 인증코드"
+          text={code}
+          setText={setCode}
+          placeholder="이메일 인증코드"
+          validationMsg={codeMsg}
+          isValidate={isConfirmMail}
+          btnTitle={!isSendMail ? '코드받기' : '인증하기'}
+          onPress={!isSendMail ? onPressSendMail : onPressConfirmMail}
         />
         <CustomInput
           title="비밀번호"
@@ -242,6 +287,7 @@ type Props = {
   placeholder: string;
   validationMsg?: string;
   isValidate?: boolean;
+  btnTitle: string;
   onPress?: () => void;
 };
 
@@ -281,7 +327,7 @@ function InputWithBtn(props: Props) {
           placeholderTextColor={customColor.gray50}
         />
         <ActionBtn
-          msg="중복체크"
+          msg={props.btnTitle}
           isColor={true}
           color={customColor.blue}
           isRegular={true}
