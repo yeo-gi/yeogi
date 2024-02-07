@@ -23,17 +23,6 @@ import {apiAxios} from '../BaseAxios';
 // 이메일 인증번호 받기
 export const sendMail = async (email: string) => {
   try {
-    // const response = await axios({
-    //   method: 'post',
-    //   baseURL: config.BASE_URL,
-    //   url: '/mail/send',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   data: {
-    //     email,
-    //   },
-    // });
     const response = await apiAxios.post('/mail/send', {email});
     return response.data;
   } catch (error) {
@@ -45,18 +34,6 @@ export const sendMail = async (email: string) => {
 // 이메일 인증번호 확인
 export const confirmMail = async (email: string, code: string) => {
   try {
-    // const response = await axios({
-    //   method: 'post',
-    //   baseURL: config.BASE_URL,
-    //   url: '/mail/confirm',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   data: {
-    //     email,
-    //     code,
-    //   },
-    // });
     const response = await apiAxios.post('/mail/confirm', {email, code});
     return response.data;
   } catch (error) {

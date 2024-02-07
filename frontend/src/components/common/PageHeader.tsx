@@ -5,19 +5,21 @@ import Entypo from 'react-native-vector-icons/FontAwesome6';
 import {useNavi} from '../navigation/useNavi';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
-export default function CommunityHeader({
+export default function PageHeader({
   page,
   title,
+  isBack,
 }: {
   page: string;
   title: string;
+  isBack?: boolean;
 }) {
   const navigation = useNavi();
 
   return (
     <View>
       <View style={styles.titleContainer}>
-        {page === 'Post' || page === 'Schedule' ? (
+        {isBack !== false ? (
           <Fontisto
             style={styles.backIcon}
             name="arrow-left-l"
