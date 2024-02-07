@@ -99,6 +99,17 @@ export default function SignupPage() {
     }
   }
 
+  // 인증코드
+  useEffect(() => {
+    if (isSendMail) {
+      if (code.length > 0) {
+        setCodeMsg('');
+      } else {
+        setCodeMsg('⦁ 인증 번호를 입력해주세요.');
+      }
+    }
+  }, [code, isSendMail]);
+
   // 비밀번호 유효성 검사
   useEffect(() => {
     if (pw.length > 0) {
