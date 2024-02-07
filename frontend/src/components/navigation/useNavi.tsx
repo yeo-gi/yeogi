@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 export type RootStackParam = {
   Home: undefined;
   Start: undefined;
-  Chatting: {roomId: number};
+  Chatting: {roomId: number; roomName: string; profileImg: string};
   Login: undefined;
   Signup: undefined;
   ChatList: undefined;
@@ -13,6 +13,7 @@ export type RootStackParam = {
   OptionalAgreement: undefined;
   Post: {postId: number};
   LocationSearch: undefined;
+  SelectDate: undefined;
 };
 
 export const useNavi = () => {

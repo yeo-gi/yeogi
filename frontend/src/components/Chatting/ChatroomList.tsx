@@ -27,7 +27,11 @@ export default function ChatroomList() {
         <TouchableOpacity
           key={index}
           onPress={() =>
-            navigation.navigate('Chatting', {roomId: chatroom.roomId})
+            navigation.navigate('Chatting', {
+              roomId: chatroom.roomId,
+              roomName: chatroom.chatRoomName,
+              profileImg: chatroom.profileImg,
+            })
           }>
           <View key={index}>
             <Text>{chatroom.chatRoomName}</Text>

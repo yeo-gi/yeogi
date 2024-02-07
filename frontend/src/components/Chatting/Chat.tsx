@@ -1,9 +1,12 @@
-import {View, Button} from 'react-native';
+import {View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {CompatClient, Stomp} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import ChatInput from './ChatInput';
 import {ChatListProps} from './ChatListType';
+import {styles} from '../../style/chat/ChatBtnStyle';
+import Feather from 'react-native-vector-icons/Feather';
+import {customColor} from '../../style/common/CommonStyle';
 
 const TextEncodingPolyfill = require('text-encoding');
 Object.assign(global, {
@@ -69,15 +72,25 @@ export default function ChatBtn({roomId, chats, setChats}: ChatListProps) {
         {},
         JSON.stringify({message: text, userId: 1}),
       );
+      setText('');
     } else {
       console.error('연결 안됨');
     }
   };
 
   return (
-    <View>
-      <ChatInput setText={setText} />
-      <Button title="전송" onPress={sendMessage} />
+    <View style={styles.btnContainer}>
+      <View style={styles.chatInput}>
+        <ChatInput text={text} setText={setText} />
+      </View>
+      <View style={styles.sendBtn}>
+        <Feather
+          name="send"
+          color={customColor.blue}
+          onPress={sendMessage}
+          size={23}
+        />
+      </View>
     </View>
   );
 }

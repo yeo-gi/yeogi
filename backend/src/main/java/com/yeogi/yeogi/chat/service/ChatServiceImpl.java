@@ -9,8 +9,8 @@ import com.yeogi.yeogi.chat.entity.Chatuser;
 import com.yeogi.yeogi.chat.repository.ChatRepository;
 import com.yeogi.yeogi.chat.repository.ChatroomRepository;
 import com.yeogi.yeogi.chat.repository.ChatuserRepository;
-import com.yeogi.yeogi.comment.repository.UserRepository;
-import com.yeogi.yeogi.post.entity.User;
+import com.yeogi.yeogi.user.domain.User;
+import com.yeogi.yeogi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -77,7 +77,7 @@ public class ChatServiceImpl implements ChatService {
     private Chatroom createChatroom(Long otherUserID) {
         return userRepository.findById(otherUserID)
                 .map(user -> Chatroom.builder()
-                        .chatRoomName(user.getNickname())
+                        .chatRoomName(user.getUserInfo().getNickName())
                         .build())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
     }
@@ -144,9 +144,9 @@ public class ChatServiceImpl implements ChatService {
             ResponseChatroomDto dto = ResponseChatroomDto.builder()
                     .otherUserId(otherUser.getUser().getUserId())
                     .roomId(chatuser.getChatroom().getChatRoomId())
-                    .ChatRoomName(otherUser.getUser().getNickname())
+                    .ChatRoomName(otherUser.getUser().getUserInfo().getNickName())
                     .lastChat(chatroom.getLastChat())
-                    .profileImg(otherUser.getUser().getProfileImg())
+                    .profileImg(otherUser.getUser().getUserInfo().getProfileImg())
                     .createdDate(chatroom.getCreatedDate())
                     .build();
 

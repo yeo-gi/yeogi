@@ -1,9 +1,10 @@
-package com.yeogi.yeogi.post.entity;
+package com.yeogi.yeogi.user.domain;
 
-import com.yeogi.yeogi.chat.entity.Chatroom;
 import com.yeogi.yeogi.chat.entity.Chatuser;
+import com.yeogi.yeogi.user.dto.OAuthInfoResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Builder
 @Table(name = "user")
 public class User {
 
@@ -26,27 +28,50 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(nullable = false)
+    private String name;
+
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "nickname", nullable = false)
-    private String nickname;
+    @Column(nullable = false)
+    private String birthday;
 
-    @Column(name = "password", nullable = false)
+
+    @Column(name = "password")
     private String password;
 
     @Column(name = "joined_trips")
     private String joinedTrips;
 
-    @Column(name = "profile_img")
-    private String profileImg;
+
+    @Enumerated(EnumType.STRING)
+    private OAuthProvider oAuthProvider;
+
+    @Column(nullable = true, name = "refresh_token") // 초기에는 없음
+    private String refreshToken;
+
+    @Column(nullable = false, unique = true)
+    private String code;
+
+    @Embedded
+    private UserInfo userInfo;
+
+    @Column(nullable = false)
+    private String gender;
 
     @OneToMany(mappedBy = "user")
     private List<Chatuser> chatUsers = new ArrayList<>();
 
 
-    public User(Long userId) {
-        this.userId = userId;
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void deleteRefreshToken() {
+        this.refreshToken = null;
     }
 
 }
+
+

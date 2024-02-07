@@ -29,7 +29,7 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.updatedDate = post.getUpdatedDate();
         this.userId = post.getUser().getUserId();
-        this.nickname = post.getUser().getNickname();
-        this.profileImg = post.getUser().getProfileImg();
+        this.nickname = post.getUser().getUserInfo().getNickName();
+        this.profileImg = post.getUser().getUserInfo().getProfileImg();
     }
 }

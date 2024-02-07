@@ -1,6 +1,5 @@
 package com.yeogi.yeogi.chat.entity;
 
-import com.yeogi.yeogi.post.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

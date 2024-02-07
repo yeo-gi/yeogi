@@ -1,7 +1,7 @@
 package com.yeogi.yeogi.comment.entity;
 
 import com.yeogi.yeogi.post.entity.Post;
-import com.yeogi.yeogi.post.entity.User;
+import com.yeogi.yeogi.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +43,7 @@ public class Comment {
     private boolean isDeleted;
 
     @ManyToOne
-    @JoinColumn(name = "parent_id", nullable = false)
+    @JoinColumn(name = "parent_id")
     private Comment parent;
 
 
