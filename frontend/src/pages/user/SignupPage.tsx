@@ -15,7 +15,7 @@ import {
   validateEmail,
   validateNickname,
   validatePw,
-} from '../../utils/util';
+} from '../../hooks/Validation';
 
 export default function SignupPage() {
   // 입력 내용
