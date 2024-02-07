@@ -14,6 +14,7 @@ export type RootStackParam = {
   Post: {postId: number};
   LocationSearch: undefined;
   SelectDate: undefined;
+  Map: undefined;
 };
 
 export const useNavi = () => {
