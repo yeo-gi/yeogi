@@ -1,20 +1,22 @@
 import {
   Image,
   TouchableOpacity,
-  SafeAreaView,
   StyleSheet,
   StatusBar,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import {styles as CommonStyles} from '../style/common/BasicContainerStyles';
 import NavigateBtn from '../components/common/NavigateBtn';
 import {windowHeight} from '../hooks/Dimensions';
-// import CustomCarousel from '../components/common/CustomCarousel';
+import CustomCarousel from '../components/common/CustomCarousel';
 
 export default function Start() {
-  console.log(StatusBar.currentHeight);
   return (
-    <SafeAreaView style={[CommonStyles.container, styles.container]}>
+    // <SafeAreaView style={[CommonStyles.container, styles.container]}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={[CommonStyles.container, styles.container]}>
       <TouchableOpacity>
         <Image
           source={require('../assets/images/yeogi.png')}
@@ -22,17 +24,18 @@ export default function Start() {
           style={styles.image}
         />
       </TouchableOpacity>
-      {/* <CustomCarousel /> */}
+      <CustomCarousel />
       <NavigateBtn msg="로그인" route="Login" isColor={true} marginBottom={7} />
       <NavigateBtn msg="회원가입" route="Signup" isColor={false} />
       <NavigateBtn msg="장소검색" route="LocationSearch" isColor={false} />
-    </SafeAreaView>
+    </ScrollView>
+    // </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Math.round(61 - (StatusBar.currentHeight ?? 24)),
+    paddingTop: Math.round(61 - (StatusBar.currentHeight ?? 24)),
   },
   image: {
     height: Math.round(windowHeight * 0.23),

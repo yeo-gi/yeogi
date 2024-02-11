@@ -2,11 +2,12 @@ import React, {useMemo} from 'react';
 import {
   FlatList,
   Image,
+  ImageSourcePropType,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {windowHeight, windowWidth} from '../../hooks/Dimensions';
 
 // type Props = {
 //   gap: number;
@@ -16,37 +17,40 @@ import {
 // };
 
 export default function CustomCarousel() {
+  const emptyImg: ImageSourcePropType = require('../../assets/images/empty.png');
   const data = useMemo(
     () => [
       {
-        mainImageUrl: 'C:Usershalloyeogi\frontendsrc/assets/images/empty.png',
+        mainImageUrl: emptyImg,
       },
       {
-        mainImageUrl: 'C:Usershalloyeogi\frontendsrcassetsimagesempty.png',
+        mainImageUrl: emptyImg,
       },
       {
-        mainImageUrl: 'C:Usershalloyeogi\frontendsrcassetsimagesempty.png',
+        mainImageUrl: emptyImg,
       },
       {
-        mainImageUrl: 'C:Usershalloyeogi\frontendsrcassetsimagesempty.png',
+        mainImageUrl: emptyImg,
       },
     ],
-    [],
+    [emptyImg],
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={{fontSize: 20, textAlign: 'center'}}>캐러셀..</Text>
+    <View>
       <FlatList
         data={data}
         horizontal
-        contentContainerStyle={{paddingHorizontal: 24}}
         renderItem={({item}) => (
-          <TouchableOpacity style={{marginRight: 12}}>
-            <Image source={{uri: item.mainImageUrl}} />
+          <TouchableOpacity>
+            <Image source={item.mainImageUrl} style={styles.image} />
           </TouchableOpacity>
         )}
         keyExtractor={(_, index) => String(index)}
+        snapToAlignment="start"
+        showsHorizontalScrollIndicator={true}
+        pagingEnabled
+        style={{marginBottom: 16}}
       />
     </View>
   );
@@ -55,5 +59,10 @@ export default function CustomCarousel() {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 100,
+  },
+  image: {
+    height: Math.round(windowHeight * 0.5),
+    width: Math.round(windowWidth - 25),
+    resizeMode: 'stretch',
   },
 });
