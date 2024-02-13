@@ -3,10 +3,10 @@ import {customFont} from '../common/CommonStyle';
 
 export const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    height: '38%',
+    height: 245,
     justifyContent: 'flex-end',
     alignItems: 'center',
+    marginBottom: 15,
   },
   map: {
     ...StyleSheet.absoluteFillObject,
@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
   markerText: {
     color: 'white',
     position: 'absolute',
-    top: '15%',
+    top: 8,
     left: 0,
     right: 0,
     textAlign: 'center',
