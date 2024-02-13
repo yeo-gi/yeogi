@@ -3,6 +3,7 @@ import React from 'react';
 import {Post} from './PostType';
 import {DefaultText} from '../../style/DefaultText';
 import {styles} from '../../style/community/PostCardStyle';
+import {TimeDisplay2} from '../../hooks/TimeDisplay';
 
 type postProps = {
   post: Post;
@@ -33,7 +34,10 @@ export default function PostCard({post}: postProps) {
       </View>
       <View style={styles.postContainer}>
         <Text style={styles.postTitle}>{truncatedTitle}</Text>
-        <DefaultText style={styles.postContent}>{post.content}</DefaultText>
+        <Text style={styles.postContent} numberOfLines={2}>
+          {post.content}
+        </Text>
+        <Text style={styles.postTime}>{TimeDisplay2(post.updatedDate)}</Text>
       </View>
     </View>
   );
