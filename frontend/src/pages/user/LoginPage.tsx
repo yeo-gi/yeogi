@@ -10,6 +10,7 @@ import PressableSmallText from '../../components/common/PressableSmallText';
 import ActionBtn from '../../components/common/ActionBtn';
 import {useNavi} from '../../components/navigation/useNavi';
 import Entypo from 'react-native-vector-icons/FontAwesome6';
+import SNSLogin from '../../components/user/SNSLogin';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -19,57 +20,59 @@ export default function LoginPage() {
   const navigation = useNavi();
 
   return (
-    <SafeAreaView style={ConStyles.container}>
+    <SafeAreaView
+      style={[ConStyles.container, {justifyContent: 'space-between'}]}>
       <View>
-        <Entypo
-          name="arrow-left-long"
-          color={'black'}
-          style={{marginTop: 15, marginBottom: 7}}
-          onPress={() => {
-            navigation.pop();
-          }}
+        <View>
+          <Entypo
+            name="arrow-left-long"
+            color={'black'}
+            style={{marginTop: 15, marginBottom: 7}}
+            onPress={() => {
+              navigation.pop();
+            }}
+          />
+          <Text style={[userStyles.header]}>로그인</Text>
+        </View>
+        <CustomInput
+          title="이메일"
+          text={email}
+          setText={setEmail}
+          placeholder="이메일"
+          isPw={false}
         />
-        <Text style={[userStyles.header]}>로그인</Text>
+        <CustomInput
+          title="비밀번호"
+          text={pw}
+          setText={setPw}
+          placeholder="비밀번호"
+          isPw={true}
+        />
+        <CustomCheckBox
+          isChecked={isKeep}
+          onValueChangeHandler={setKeep}
+          title="로그인 상태 유지"
+        />
+        <ActionBtn
+          msg="로그인"
+          isColor={true}
+          marginTop={37}
+          marginBottom={16}
+          onPress={() => console.log('로그인')}
+        />
+        <View style={commonStyles.rowCenterContents}>
+          <PressableSmallText title="아이디 찾기" route="Signup" />
+          <Text style={[userStyles.pressableSmallText, {marginHorizontal: 4}]}>
+            |
+          </Text>
+          <PressableSmallText title="비밀번호 찾기" route="Signup" />
+          <Text style={[userStyles.pressableSmallText, {marginHorizontal: 4}]}>
+            |
+          </Text>
+          <PressableSmallText title="회원가입" route="Signup" />
+        </View>
       </View>
-      <CustomInput
-        title="이메일"
-        text={email}
-        setText={setEmail}
-        placeholder="이메일"
-        isPw={false}
-      />
-      <CustomInput
-        title="비밀번호"
-        text={pw}
-        setText={setPw}
-        placeholder="비밀번호"
-        isPw={true}
-      />
-      <CustomCheckBox
-        isChecked={isKeep}
-        onValueChangeHandler={setKeep}
-        title="로그인 상태 유지"
-      />
-      <ActionBtn
-        msg="로그인"
-        isColor={true}
-        marginTop={37}
-        marginBottom={16}
-        onPress={() => console.log('로그인')}
-      />
-      <View style={commonStyles.rowCenterContents}>
-        <PressableSmallText title="아이디 찾기" route="Signup" />
-        <Text style={[userStyles.pressableSmallText, {marginHorizontal: 4}]}>
-          |
-        </Text>
-        <PressableSmallText title="비밀번호 찾기" route="Signup" />
-        <Text style={[userStyles.pressableSmallText, {marginHorizontal: 4}]}>
-          |
-        </Text>
-        <PressableSmallText title="회원가입" route="Signup" />
-      </View>
-      <Text>{email}</Text>
-      <Text>{pw}</Text>
+      <SNSLogin />
     </SafeAreaView>
   );
 }

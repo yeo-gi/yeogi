@@ -4,6 +4,7 @@ import CustomSearchBar from '../../components/common/CustomSearchBar';
 import {styles} from '../../style/common/BasicContainerStyles';
 import axios from 'axios';
 import config from '../../../apikey';
+import PageHeader from '../../components/common/PageHeader';
 
 export default function LocationSearchPage() {
   const [query, setQuery] = useState('');
@@ -24,6 +25,7 @@ export default function LocationSearchPage() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <PageHeader page="LocationSearch" title="" />
       <CustomSearchBar
         text={query}
         setText={setQuery}
