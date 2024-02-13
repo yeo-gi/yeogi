@@ -27,8 +27,8 @@ export const styles = StyleSheet.create({
   distanceIcon: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 19,
-    width: 19,
+    height: 18,
+    width: 18,
     marginRight: 8,
   },
   distanceText: {
@@ -38,11 +38,11 @@ export const styles = StyleSheet.create({
   },
   line: {
     position: 'absolute',
-    left: 8,
+    left: 7.5,
     top: -10,
     bottom: 0,
     width: 3,
-    height: 50,
+    height: 40,
     backgroundColor: customColor.lightGreen,
   },
 });
