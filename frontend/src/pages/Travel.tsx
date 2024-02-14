@@ -7,7 +7,8 @@ export default function Travel() {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Travel</Text>
-      <Text onPress={() => navigation.navigate('Map')}>지도ㅎㅎ</Text>
+      <Text onPress={() => navigation.navigate('Map')}>지도ʕ•ﻌ•ʔ ♡</Text>
+      <Text onPress={() => navigation.navigate('TimeTable')}>일정(｡•̀ᴗ-ღ)</Text>
     </View>
   );
 }
