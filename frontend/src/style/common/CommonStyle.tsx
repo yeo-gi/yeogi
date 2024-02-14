@@ -11,6 +11,8 @@ export const customColor = {
   blue: '#007AFF',
   red: '#F93535',
   lightViolet: '#E1E0F1',
+  lightGreen: '#71C703',
+  lightYellow: '#FFF9C7',
 };
 
 export const customFont = {

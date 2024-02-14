@@ -7,7 +7,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavi} from '../navigation/useNavi';
 import {customColor} from '../../style/common/CommonStyle';
 import {createChatroom} from '../../apis/communityAPI/ChattingAPI';
-import TimeDisplay from './../../hooks/TimeDisplay';
+import {TimeDisplay} from '../../hooks/TimeDisplay';
 
 export default function PostMain({post}: {post: Post | null}) {
   const navigation = useNavi();

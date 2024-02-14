@@ -66,7 +66,7 @@ export default function ChatBtn({roomId, chats, setChats}: ChatListProps) {
   const [text, setText] = useState('');
 
   const sendMessage = () => {
-    if (stompClientRef.current) {
+    if (stompClientRef.current && text.trim() !== '') {
       stompClientRef.current.send(
         `/pub/${roomId}`,
         {},
@@ -74,7 +74,7 @@ export default function ChatBtn({roomId, chats, setChats}: ChatListProps) {
       );
       setText('');
     } else {
-      console.error('연결 안됨');
+      console.error('연결 안됨 또는 텍스트가 비어 있음');
     }
   };
 

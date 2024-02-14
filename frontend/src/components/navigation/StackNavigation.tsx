@@ -15,6 +15,8 @@ import PostPage from '../../pages/community/PostPage';
 import InvitationPage from '../../pages/invitation/InvitationPage';
 import LocationSearchPage from '../../pages/trip/LocationSearchPage';
 import SelectDatePage from '../../pages/schedule/SelectDatePage';
+import MapPage from '../../pages/schedule/MapPage';
+import TimeTable from '../schedule/TimeTable';
 
 const Stack = createNativeStackNavigator();
 
@@ -84,6 +86,16 @@ export default function StackNavigation() {
       <Stack.Screen
         name="SelectDate"
         component={SelectDatePage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Map"
+        component={MapPage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TimeTable"
+        component={TimeTable}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
