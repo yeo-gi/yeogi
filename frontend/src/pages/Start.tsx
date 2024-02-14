@@ -4,6 +4,8 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
+  Text,
+  View,
 } from 'react-native';
 import React from 'react';
 import {styles as CommonStyles} from '../style/common/BasicContainerStyles';
@@ -14,15 +16,25 @@ import TextWithIconBtn from '../components/common/TextWithIconBtn';
 
 export default function Start() {
   return (
-    // <SafeAreaView style={[CommonStyles.container, styles.container]}>
     <ScrollView
       showsVerticalScrollIndicator={false}
       style={[CommonStyles.container, styles.container]}>
-      <TextWithIconBtn
-        text="비용 정산하기"
-        icon="money-bills"
-        isEntypo={true}
-      />
+      <View style={{flexDirection: 'row'}}>
+        <TextWithIconBtn
+          text="비용 정산하기"
+          icon="money-bills"
+          isEntypo={true}
+          page="Login"
+          iconSize={16}
+        />
+        <TextWithIconBtn
+          text="일행찾기"
+          icon="person-circle-check"
+          isEntypo={true}
+          page="Login"
+          iconSize={18}
+        />
+      </View>
       <TouchableOpacity>
         <Image
           source={require('../assets/images/yeogi.png')}
@@ -35,7 +47,6 @@ export default function Start() {
       <NavigateBtn msg="회원가입" route="Signup" isColor={false} />
       <NavigateBtn msg="장소검색" route="LocationSearch" isColor={false} />
     </ScrollView>
-    // </SafeAreaView>
   );
 }
 
