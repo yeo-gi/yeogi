@@ -15,6 +15,7 @@ export type RootStackParam = {
   LocationSearch: undefined;
   SelectDate: undefined;
   Map: undefined;
+  TimeTable: undefined;
 };
 
 export const useNavi = () => {
