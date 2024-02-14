@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {customColor, customFont} from '../../style/common/CommonStyle';
 
 export default function SNSLogin() {
@@ -12,7 +12,10 @@ export default function SNSLogin() {
       </View>
       <View style={styles.body}>
         <Pressable style={styles.circle}>
-          <Text style={styles.naver}>N</Text>
+          <Image
+            source={require('../../assets/images/naverBtnG.png')}
+            style={styles.circle}
+          />
         </Pressable>
       </View>
     </View>
@@ -43,8 +46,6 @@ const styles = StyleSheet.create({
   circle: {
     width: 48,
     height: 48,
-    borderColor: customColor.lightViolet,
-    borderWidth: 1,
     borderRadius: 1000,
   },
   naver: {
