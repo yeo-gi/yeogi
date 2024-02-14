@@ -64,10 +64,12 @@ export default function RoundedBtnStyles(props: Props) {
     outlined: {
       borderColor: props.borderColor ?? '#2F2F2F',
       borderWidth: props.borderWidth ?? 1,
+      opacity: props.isDisabled ? 0.5 : 1,
     },
     blueOutlined: {
       borderColor: customColor.blue,
       borderWidth: props.borderWidth ?? 1,
+      opacity: props.isDisabled ? 0.5 : 1,
     },
     emptyContent: {
       borderColor: props.emptyBorderColor ?? customColor.gray50,
