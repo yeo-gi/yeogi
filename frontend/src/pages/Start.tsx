@@ -4,37 +4,18 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
-  Text,
-  View,
 } from 'react-native';
 import React from 'react';
 import {styles as CommonStyles} from '../style/common/BasicContainerStyles';
 import NavigateBtn from '../components/common/NavigateBtn';
 import {windowHeight} from '../hooks/Dimensions';
 import CustomCarousel from '../components/common/CustomCarousel';
-import TextWithIconBtn from '../components/common/TextWithIconBtn';
 
 export default function Start() {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       style={[CommonStyles.container, styles.container]}>
-      <View style={{flexDirection: 'row'}}>
-        <TextWithIconBtn
-          text="비용 정산하기"
-          icon="money-bills"
-          isEntypo={true}
-          page="Login"
-          iconSize={16}
-        />
-        <TextWithIconBtn
-          text="일행찾기"
-          icon="person-circle-check"
-          isEntypo={true}
-          page="Login"
-          iconSize={18}
-        />
-      </View>
       <TouchableOpacity>
         <Image
           source={require('../assets/images/yeogi.png')}
