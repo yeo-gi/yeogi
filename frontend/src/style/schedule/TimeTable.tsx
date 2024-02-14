@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
   descLine: {
     position: 'absolute',
     left: 7.5,
-    top: 8,
+    top: 7,
     bottom: 0,
     width: 3,
     height: 27,

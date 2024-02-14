@@ -17,6 +17,12 @@ export default function MapSchedule() {
         {name: '제주공항', latitude: 33.5070537, longitude: 126.492776},
         {name: '연돈', latitude: 33.2592174, longitude: 126.4057641},
         {name: '오설록 티 뮤지엄', latitude: 33.3058932, longitude: 126.289534},
+        {name: '제주공항', latitude: 33.5070537, longitude: 126.492776},
+        {name: '연돈', latitude: 33.2592174, longitude: 126.4057641},
+        {name: '오설록 티 뮤지엄', latitude: 33.3058932, longitude: 126.289534},
+        {name: '제주공항', latitude: 33.5070537, longitude: 126.492776},
+        {name: '연돈', latitude: 33.2592174, longitude: 126.4057641},
+        {name: '오설록 티 뮤지엄', latitude: 33.3058932, longitude: 126.289534},
       ],
     },
     {

@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   line: {
     position: 'absolute',
     left: 7.5,
-    top: -10,
+    top: -11,
     bottom: 0,
     width: 3,
     height: 40,

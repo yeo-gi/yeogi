@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import React from 'react';
 import LocationDetail from '../common/LocationDetail';
 import {styles} from '../../style/schedule/TimeTable';
@@ -9,6 +9,48 @@ export default function TimeTable() {
     {
       date: '12/21',
       coordinates: [
+        {
+          name: '제주공항',
+          latitude: 33.5070537,
+          longitude: 126.492776,
+          time: 'AM 8:00',
+          description: '어쩌고저쩌고내용입니다',
+        },
+        {
+          name: '연돈',
+          latitude: 33.2592174,
+          longitude: 126.4057641,
+          time: 'AM 8:00',
+          description: '',
+        },
+        {
+          name: '오설록 티 뮤지엄',
+          latitude: 33.3058932,
+          longitude: 126.289534,
+          time: 'AM 8:00',
+          description: '어쩌고저쩌고내용입니다',
+        },
+        {
+          name: '제주공항',
+          latitude: 33.5070537,
+          longitude: 126.492776,
+          time: 'AM 8:00',
+          description: '어쩌고저쩌고내용입니다',
+        },
+        {
+          name: '연돈',
+          latitude: 33.2592174,
+          longitude: 126.4057641,
+          time: 'AM 8:00',
+          description: '',
+        },
+        {
+          name: '오설록 티 뮤지엄',
+          latitude: 33.3058932,
+          longitude: 126.289534,
+          time: 'AM 8:00',
+          description: '어쩌고저쩌고내용입니다',
+        },
         {
           name: '제주공항',
           latitude: 33.5070537,
@@ -57,6 +99,50 @@ export default function TimeTable() {
           time: 'AM 8:00',
           description: '',
         },
+        {
+          name: '제주공항',
+          latitude: 33.5070537,
+          longitude: 126.492776,
+          time: 'AM 8:00',
+          description: '',
+        },
+        {
+          name: '연돈',
+          latitude: 33.2592174,
+          longitude: 126.4057641,
+          time: 'AM 8:00',
+          description:
+            '어쩌고저쩌고내용입니다어쩌고저쩌고내용입니다어쩌고저쩌고내용입니다어쩌고저쩌고내용입니다어쩌고저쩌고내용입니다어쩌고저쩌고',
+        },
+        {
+          name: '오설록 티 뮤지엄',
+          latitude: 33.3058932,
+          longitude: 126.289534,
+          time: 'AM 8:00',
+          description: '',
+        },
+        {
+          name: '제주공항',
+          latitude: 33.5070537,
+          longitude: 126.492776,
+          time: 'AM 8:00',
+          description: '',
+        },
+        {
+          name: '연돈',
+          latitude: 33.2592174,
+          longitude: 126.4057641,
+          time: 'AM 8:00',
+          description:
+            '어쩌고저쩌고내용입니다어쩌고저쩌고내용입니다어쩌고저쩌고내용입니다어쩌고저쩌고내용입니다어쩌고저쩌고내용입니다어쩌고저쩌고',
+        },
+        {
+          name: '오설록 티 뮤지엄',
+          latitude: 33.3058932,
+          longitude: 126.289534,
+          time: 'AM 8:00',
+          description: '',
+        },
       ],
     },
   ];
@@ -67,7 +153,7 @@ export default function TimeTable() {
   };
 
   return (
-    <View style={styles.timeTableBox}>
+    <ScrollView style={styles.timeTableBox}>
       {travelSchedule.map((daySchedule, index) => (
         <View key={index} style={styles.dayScheduleBox}>
           <Text style={styles.dateText}>
@@ -77,9 +163,9 @@ export default function TimeTable() {
             </Text>
           </Text>
           {daySchedule.coordinates.map((coordinate, coordIndex) => (
-            <View>
+            <View key={coordIndex}>
               <View>
-                <View key={coordIndex} style={styles.planContainer}>
+                <View style={styles.planContainer}>
                   <View style={styles.timeContainer}>
                     <View style={styles.timeIcon}>
                       <Ionicons name="time-outline" color={'white'} size={15} />
@@ -111,6 +197,6 @@ export default function TimeTable() {
           ))}
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 }
