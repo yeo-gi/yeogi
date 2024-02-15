@@ -203,6 +203,7 @@ export default function SignupPage() {
           isValidate={emailVal && !isEmailDuplicated}
           btnTitle="중복체크"
           onPress={EmailDuplicateCheck}
+          isDisabled={!email}
         />
         <InputWithBtn
           title="이메일 인증코드"
@@ -213,6 +214,7 @@ export default function SignupPage() {
           isValidate={isConfirmMail}
           btnTitle={!isSendMail ? '코드받기' : '인증하기'}
           onPress={!isSendMail ? onPressSendMail : onPressConfirmMail}
+          isDisabled={!isSendMail ? isEmailDuplicated : !code}
         />
         <CustomInput
           title="비밀번호"
@@ -285,6 +287,16 @@ export default function SignupPage() {
           marginTop={13}
           marginBottom={17}
           page={() => console.log('회원가입')}
+          isDisabled={
+            !(
+              !isEmailDuplicated &&
+              isConfirmMail &&
+              pwVal &&
+              confirmPw &&
+              nicknameVal &&
+              required
+            )
+          }
         />
       </ScrollView>
     </SafeAreaView>
@@ -300,6 +312,7 @@ type Props = {
   isValidate?: boolean;
   btnTitle: string;
   onPress: () => void;
+  isDisabled: boolean;
 };
 
 function InputWithBtn(props: Props) {
@@ -344,6 +357,7 @@ function InputWithBtn(props: Props) {
           isRegular={true}
           width={'30%'}
           page={props.onPress}
+          isDisabled={props.isDisabled}
         />
       </View>
       <Text
