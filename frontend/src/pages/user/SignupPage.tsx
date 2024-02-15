@@ -7,7 +7,6 @@ import {styles as BtnStyles} from '../../style/common/RoundedBtnStyles';
 import CustomInput from '../../components/common/CustomInput';
 import CustomCheckBox from '../../components/common/CustomCheckBox';
 import {customColor} from '../../style/common/CommonStyle';
-import ActionBtn from '../../components/common/ActionBtn';
 import Entypo from 'react-native-vector-icons/FontAwesome6';
 import {useNavi} from '../../components/navigation/useNavi';
 import {
@@ -17,6 +16,7 @@ import {
   validatePw,
 } from '../../hooks/Validation';
 import {confirmMail, sendMail} from '../../apis/userAPI/SignupAPI';
+import RoundedBtn from '../../components/common/RoundedBtn';
 
 export default function SignupPage() {
   // 입력 내용
@@ -279,12 +279,12 @@ export default function SignupPage() {
             </View>
           </View>
         </View>
-        <ActionBtn
+        <RoundedBtn
           msg="회원가입"
           isColor={true}
           marginTop={13}
           marginBottom={17}
-          onPress={() => console.log('회원가입')}
+          page={() => console.log('회원가입')}
         />
       </ScrollView>
     </SafeAreaView>
@@ -299,7 +299,7 @@ type Props = {
   validationMsg?: string;
   isValidate?: boolean;
   btnTitle: string;
-  onPress?: () => void;
+  onPress: () => void;
 };
 
 function InputWithBtn(props: Props) {
@@ -337,13 +337,13 @@ function InputWithBtn(props: Props) {
           placeholder={props.placeholder}
           placeholderTextColor={customColor.gray50}
         />
-        <ActionBtn
+        <RoundedBtn
           msg={props.btnTitle}
           isColor={true}
           color={customColor.blue}
           isRegular={true}
           width={'30%'}
-          onPress={props.onPress}
+          page={props.onPress}
         />
       </View>
       <Text
