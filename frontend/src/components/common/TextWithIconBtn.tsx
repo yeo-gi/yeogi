@@ -28,7 +28,7 @@ import {useNavi} from '../navigation/useNavi';
 type Props = {
   text: string;
   icon: string;
-  page: string | Function; // 단순 페이지 이동 시에는 string 타입으로 페이지 이름 입력, 페이지 이동시 params가 필요하거나 다른 함수를 실행시키고 싶을 시엔 함수 형태로
+  page: string | Function | (() => void); // 단순 페이지 이동 시에는 string 타입으로 페이지 이름 입력, 페이지 이동시 params가 필요하거나 다른 함수를 실행시키고 싶을 시엔 함수 형태로
   isEntypo?: boolean;
   isFontisto?: boolean;
   iconSize?: number;

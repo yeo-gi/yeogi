@@ -34,6 +34,7 @@ type Props = {
   fontSize?: number;
   isRegular?: boolean;
   isColor?: boolean;
+  isDisabled?: boolean;
   isRound?: boolean;
   width?: DimensionValue;
   marginTop?: number;
@@ -54,10 +55,21 @@ export default function RoundedBtnStyles(props: Props) {
     },
     colored: {
       backgroundColor: props.backgroundColor ?? '#2F2F2F',
+      opacity: props.isDisabled ? 0.5 : 1,
+    },
+    blueColored: {
+      backgroundColor: customColor.blue,
+      opacity: props.isDisabled ? 0.5 : 1,
     },
     outlined: {
       borderColor: props.borderColor ?? '#2F2F2F',
       borderWidth: props.borderWidth ?? 1,
+      opacity: props.isDisabled ? 0.5 : 1,
+    },
+    blueOutlined: {
+      borderColor: customColor.blue,
+      borderWidth: props.borderWidth ?? 1,
+      opacity: props.isDisabled ? 0.5 : 1,
     },
     emptyContent: {
       borderColor: props.emptyBorderColor ?? customColor.gray50,

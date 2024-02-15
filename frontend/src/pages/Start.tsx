@@ -7,9 +7,9 @@ import {
 } from 'react-native';
 import React from 'react';
 import {styles as CommonStyles} from '../style/common/BasicContainerStyles';
-import NavigateBtn from '../components/common/NavigateBtn';
 import {windowHeight} from '../hooks/Dimensions';
 import CustomCarousel from '../components/common/CustomCarousel';
+import RoundedBtn from '../components/common/RoundedBtn';
 
 export default function Start() {
   return (
@@ -24,9 +24,9 @@ export default function Start() {
         />
       </TouchableOpacity>
       <CustomCarousel />
-      <NavigateBtn msg="로그인" route="Login" isColor={true} marginBottom={7} />
-      <NavigateBtn msg="회원가입" route="Signup" isColor={false} />
-      <NavigateBtn msg="장소검색" route="LocationSearch" isColor={false} />
+      <RoundedBtn msg="로그인" page="Login" isColor={true} marginBottom={7} />
+      <RoundedBtn msg="회원가입" page="Signup" isColor={false} />
+      <RoundedBtn msg="장소검색" page="LocationSearch" isColor={false} />
     </ScrollView>
   );
 }
