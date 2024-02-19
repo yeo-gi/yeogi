@@ -59,6 +59,7 @@ export default function LoginPage() {
           marginTop={37}
           marginBottom={16}
           page={() => console.log('로그인')}
+          isDisabled={!(email && pw)}
         />
         <View style={commonStyles.rowCenterContents}>
           <PressableSmallText title="아이디 찾기" route="Signup" />
