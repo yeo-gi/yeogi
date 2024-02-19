@@ -1,7 +1,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Home, Calculate, Community, Travel} from './index';
+import {Image, Text, View} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,23 +21,46 @@ const screenOptions = {
   },
 };
 
-const getTabBarIcon = (routeName: string, focused: boolean) => {
-  let iconName: string = '';
-
-  if (routeName === homeName) {
-    iconName = focused ? 'home' : 'home-outline';
-  } else if (routeName === travelName) {
-    iconName = focused ? 'calendar' : 'calendar-outline';
-  } else if (routeName === calculateName) {
-    iconName = focused ? 'calculator' : 'calculator-outline';
-  } else if (routeName === communityName) {
-    iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
+function getIcon(name: string, focused: boolean) {
+  if (name === homeName) {
+    if (focused) {
+      return require('../../assets/images/bottomnav/home_focused.png');
+    } else {
+      return require('../../assets/images/bottomnav/home.png');
+    }
+  } else if (name === travelName) {
+    if (focused) {
+      return require('../../assets/images/bottomnav/schedule_focused.png');
+    } else {
+      return require('../../assets/images/bottomnav/schedule.png');
+    }
+  } else if (name === calculateName) {
+    if (focused) {
+      return require('../../assets/images/bottomnav/calculator_focused.png');
+    } else {
+      return require('../../assets/images/bottomnav/calculator.png');
+    }
+  } else if (name === communityName) {
+    if (focused) {
+      return require('../../assets/images/bottomnav/community_focused.png');
+    } else {
+      return require('../../assets/images/bottomnav/community.png');
+    }
   }
+}
 
-  let color = focused ? '#007AFF' : '#D3D3D3';
-  let size = 28;
+const getTabBarIcon = (routeName: string, focused: boolean) => {
+  const iconImg = getIcon(routeName, focused);
+  const color = focused ? '#007AFF' : '#777777';
 
-  return <Ionicons name={iconName} color={color} size={size} />;
+  return (
+    <View style={{alignItems: 'center', paddingVertical: 8}}>
+      <Image source={iconImg} />
+      <Text style={{fontSize: 9, letterSpacing: 0.16, color: color}}>
+        {routeName}
+      </Text>
+    </View>
+  );
 };
 
 export default function BottomNav() {
