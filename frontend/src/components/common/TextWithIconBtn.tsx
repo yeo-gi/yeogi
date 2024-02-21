@@ -52,14 +52,14 @@ export default function TextWithIconBtn(props: Props) {
       {props.isEntypo ? (
         <Entypo
           name={props.icon}
-          size={props.iconSize ?? 20}
+          size={props.iconSize ?? 18}
           style={styles.icon}
         />
       ) : null}
       {props.isFontisto ? (
         <Fontisto
           name={props.icon}
-          size={props.iconSize ?? 20}
+          size={props.iconSize ?? 18}
           style={styles.icon}
         />
       ) : null}
@@ -85,14 +85,17 @@ function Styles(props: styleProps) {
     },
     text: {
       // marginLeft: 8,
-      fontSize: 14,
+      fontSize: 12,
       color: '#1D1B20',
-      paddingVertical: 6,
-      paddingLeft: props.iconSize ? 22 + props.iconSize : 42,
+      letterSpacing: 0.1,
+      lineHeight: 20,
+      paddingVertical: 4,
+      paddingLeft: props.iconSize ? 18 + props.iconSize : 36,
       paddingRight: 8,
       borderRadius: 8,
       borderWidth: 1,
       marginRight: 10,
+      borderColor: '#79747E',
     },
     icon: {
       color: customColor.blue,
