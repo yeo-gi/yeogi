@@ -21,30 +21,32 @@ const screenOptions = {
   },
 };
 
+const baseRoute = '../../assets/images/bottomnav/';
+
 function getIcon(name: string, focused: boolean) {
   if (name === homeName) {
     if (focused) {
-      return require('../../assets/images/bottomnav/home_focused.png');
+      return require(`${baseRoute}home_focused.png`);
     } else {
-      return require('../../assets/images/bottomnav/home.png');
+      return require(`${baseRoute}home.png`);
     }
   } else if (name === travelName) {
     if (focused) {
-      return require('../../assets/images/bottomnav/schedule_focused.png');
+      return require(`${baseRoute}schedule_focused.png`);
     } else {
-      return require('../../assets/images/bottomnav/schedule.png');
+      return require(`${baseRoute}schedule.png`);
     }
   } else if (name === calculateName) {
     if (focused) {
-      return require('../../assets/images/bottomnav/calculator_focused.png');
+      return require(`${baseRoute}calculator_focused.png`);
     } else {
-      return require('../../assets/images/bottomnav/calculator.png');
+      return require(`${baseRoute}calculator.png`);
     }
   } else if (name === communityName) {
     if (focused) {
-      return require('../../assets/images/bottomnav/community_focused.png');
+      return require(`${baseRoute}community_focused.png`);
     } else {
-      return require('../../assets/images/bottomnav/community.png');
+      return require(`${baseRoute}community.png`);
     }
   }
 }
