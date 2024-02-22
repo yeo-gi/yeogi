@@ -16,7 +16,7 @@ const datas = [
   },
 ];
 
-const contents = datas.map(data => {
+const contents = datas.map((data, idx) => {
   const styles = StyleSheet.create({
     container: {
       flexDirection: 'row',
@@ -47,7 +47,7 @@ const contents = datas.map(data => {
   });
 
   return (
-    <View>
+    <View key={idx}>
       <Pressable style={styles.container}>
         <Image
           source={require('../../assets/images/empty.png')}

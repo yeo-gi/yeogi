@@ -25,7 +25,7 @@ const datas = [
   },
 ];
 
-const contents = datas.map(data => {
+const contents = datas.map((data, idx) => {
   const styles = StyleSheet.create({
     container: {
       alignItems: 'center',
@@ -43,7 +43,7 @@ const contents = datas.map(data => {
   });
 
   return (
-    <Pressable style={styles.container}>
+    <Pressable key={idx} style={styles.container}>
       <Image
         source={require('../../assets/images/empty.png')}
         style={styles.img}
@@ -61,7 +61,10 @@ export default function MDRecommended() {
         <Text style={homeStyles.title}>여기MD가 추천하는 여행지</Text>
         <Text style={{fontSize: 17, color: 'black'}}>✈️</Text>
       </View>
-      <ScrollView horizontal style={{marginTop: 20}}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={{marginTop: 20}}>
         {contents}
       </ScrollView>
     </View>
