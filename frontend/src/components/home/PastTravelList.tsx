@@ -5,18 +5,20 @@ import {styles as homeStyles} from '../../style/home/HomeStyle';
 // 임시 데이터
 const datas = [
   {
+    id: 1,
     img: '../../assets/images/empty.png',
     title: '지난 여행',
     desc: '지난 지난 여행 여행',
   },
   {
+    id: 2,
     img: '../../assets/images/empty.png',
     title: '지난 여행',
     desc: '지난 지난 여행 여행',
   },
 ];
 
-const contents = datas.map((data, idx) => {
+const contents = datas.map(data => {
   const styles = StyleSheet.create({
     container: {
       flexDirection: 'row',
@@ -47,7 +49,7 @@ const contents = datas.map((data, idx) => {
   });
 
   return (
-    <View key={idx}>
+    <View key={data.id}>
       <Pressable style={styles.container}>
         <Image
           source={require('../../assets/images/empty.png')}
