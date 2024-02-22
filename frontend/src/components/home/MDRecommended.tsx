@@ -12,14 +12,17 @@ import {styles as homeStyles} from '../../style/home/HomeStyle';
 // 임시 데이터
 const datas = [
   {
+    id: 1,
     img: '../../assets/images/empty.png',
     name: '광주',
   },
   {
+    id: 2,
     img: '../../assets/images/empty.png',
     name: '수원',
   },
   {
+    id: 3,
     img: '../../assets/images/empty.png',
     name: '서울',
   },
@@ -43,7 +46,7 @@ const contents = datas.map(data => {
   });
 
   return (
-    <Pressable style={styles.container}>
+    <Pressable key={data.id} style={styles.container}>
       <Image
         source={require('../../assets/images/empty.png')}
         style={styles.img}
@@ -61,7 +64,10 @@ export default function MDRecommended() {
         <Text style={homeStyles.title}>여기MD가 추천하는 여행지</Text>
         <Text style={{fontSize: 17, color: 'black'}}>✈️</Text>
       </View>
-      <ScrollView horizontal style={{marginTop: 20}}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={{marginTop: 20}}>
         {contents}
       </ScrollView>
     </View>
